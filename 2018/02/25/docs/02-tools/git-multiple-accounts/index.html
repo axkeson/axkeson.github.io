@@ -134,17 +134,18 @@
 
 
 
-  <meta name="description" content="文档 目录 程序人生 开发效率低？造成代码难以维护的35个恶习   工具 在IDE上安装代码规范检查工具   PHP MySQL Linux NoSQL MongoDB 基础教程 MongoDB 复制（副本集） MongoDB 分片   数据存储 计算机基础 数据结构预算法">
+  <meta name="description" content="前言在开发的过程中，经常会遇到这样的状况：需要在一台电脑上同时使用两个甚至多个 git 账号，负责不同的用途，比如：一个用来写个人项目，一个用来写公司的项目。为此我们需要为不同的账号生成不同的密钥，那对这些不同的账号和不同的密钥，我们该怎么处理呢？ SSH配置取消全局设置的用户名和邮箱12$ git config --global --unset user.name$ git config --g">
+<meta name="keywords" content="工具,Git,SSH">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Axkeson&#39;s Notes">
-<meta property="og:url" content="http://yoursite.com/2019/07/11/docs/README/index.html">
+<meta property="og:title" content="Git 客户端多账号管理">
+<meta property="og:url" content="http://yoursite.com/2018/02/25/docs/02-tools/git-multiple-accounts/index.html">
 <meta property="og:site_name" content="Axkeson&#39;s Notes">
-<meta property="og:description" content="文档 目录 程序人生 开发效率低？造成代码难以维护的35个恶习   工具 在IDE上安装代码规范检查工具   PHP MySQL Linux NoSQL MongoDB 基础教程 MongoDB 复制（副本集） MongoDB 分片   数据存储 计算机基础 数据结构预算法">
+<meta property="og:description" content="前言在开发的过程中，经常会遇到这样的状况：需要在一台电脑上同时使用两个甚至多个 git 账号，负责不同的用途，比如：一个用来写个人项目，一个用来写公司的项目。为此我们需要为不同的账号生成不同的密钥，那对这些不同的账号和不同的密钥，我们该怎么处理呢？ SSH配置取消全局设置的用户名和邮箱12$ git config --global --unset user.name$ git config --g">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-11T10:44:58.459Z">
+<meta property="og:updated_time" content="2019-07-11T17:07:00.288Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Axkeson&#39;s Notes">
-<meta name="twitter:description" content="文档 目录 程序人生 开发效率低？造成代码难以维护的35个恶习   工具 在IDE上安装代码规范检查工具   PHP MySQL Linux NoSQL MongoDB 基础教程 MongoDB 复制（副本集） MongoDB 分片   数据存储 计算机基础 数据结构预算法">
+<meta name="twitter:title" content="Git 客户端多账号管理">
+<meta name="twitter:description" content="前言在开发的过程中，经常会遇到这样的状况：需要在一台电脑上同时使用两个甚至多个 git 账号，负责不同的用途，比如：一个用来写个人项目，一个用来写公司的项目。为此我们需要为不同的账号生成不同的密钥，那对这些不同的账号和不同的密钥，我们该怎么处理呢？ SSH配置取消全局设置的用户名和邮箱12$ git config --global --unset user.name$ git config --g">
 
 
 
@@ -152,7 +153,7 @@
 
   
   
-  <link rel="canonical" href="http://yoursite.com/2019/07/11/docs/README/">
+  <link rel="canonical" href="http://yoursite.com/2018/02/25/docs/02-tools/git-multiple-accounts/">
 
 
 
@@ -162,7 +163,7 @@
   };
 </script>
 
-  <title> | Axkeson's Notes</title>
+  <title>Git 客户端多账号管理 | Axkeson's Notes</title>
   
 
 
@@ -418,7 +419,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/07/11/docs/README/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/02/25/docs/02-tools/git-multiple-accounts/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Axkeson">
@@ -435,7 +436,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
+          <h1 class="post-title" itemprop="name headline">Git 客户端多账号管理
 
               
             
@@ -461,12 +462,27 @@
                 
               
 
-              <time title="创建时间：2019-07-11 18:44:58" itemprop="dateCreated datePublished" datetime="2019-07-11T18:44:58+08:00">2019-07-11</time>
+              <time title="创建时间：2018-02-25 00:12:00" itemprop="dateCreated datePublished" datetime="2018-02-25T00:12:00+08:00">2018-02-25</time>
             </span>
           
 
           
 
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/工具/" itemprop="url" rel="index"><span itemprop="name">工具</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -501,31 +517,34 @@
       
 
       
-        <h1 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h1><ul>
-<li>目录<ul>
-<li>程序人生<ul>
-<li><a href="./01-program-life/01001.md">开发效率低？造成代码难以维护的35个恶习</a></li>
-</ul>
-</li>
-<li>工具<ul>
-<li><a href="./02-tools/phpcs-ide-setting.md">在IDE上安装代码规范检查工具</a></li>
-</ul>
-</li>
-<li>PHP</li>
-<li>MySQL</li>
-<li>Linux</li>
-<li>NoSQL<ul>
-<li><a href="./05-nosql/mongodb-tutorial-base.md">MongoDB 基础教程</a></li>
-<li><a href="./05-nosql/mongodb-replication.md">MongoDB 复制（副本集）</a></li>
-<li><a href="./05-nosql/mongodb-sharding.md">MongoDB 分片</a></li>
-</ul>
-</li>
-<li>数据存储</li>
-<li>计算机基础</li>
-<li>数据结构预算法     </li>
-</ul>
-</li>
-</ul>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在开发的过程中，经常会遇到这样的状况：需要在一台电脑上同时使用两个甚至多个 git 账号，负责不同的用途，比如：一个用来写个人项目，一个用来写公司的项目。为此我们需要为不同的账号生成不同的密钥，那对这些不同的账号和不同的密钥，我们该怎么处理呢？</p>
+<h2 id="SSH配置"><a href="#SSH配置" class="headerlink" title="SSH配置"></a>SSH配置</h2><h3 id="取消全局设置的用户名和邮箱"><a href="#取消全局设置的用户名和邮箱" class="headerlink" title="取消全局设置的用户名和邮箱"></a>取消全局设置的用户名和邮箱</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global --<span class="built_in">unset</span> user.name</span><br><span class="line">$ git config --global --<span class="built_in">unset</span> user.email</span><br></pre></td></tr></table></figure>
+
+<h3 id="生成私钥和公钥"><a href="#生成私钥和公钥" class="headerlink" title="生成私钥和公钥"></a>生成私钥和公钥</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> ~/.ssh &amp;&amp; mkdir -pv &#123;github,company&#125;</span><br><span class="line">$ ssh-keygen -t rsa -C <span class="string">"youremail@example.com"</span></span><br><span class="line"></span><br><span class="line">Generating public/private rsa key pair.</span><br><span class="line">Enter file <span class="keyword">in</span> <span class="built_in">which</span> to save the key (/Users/Administrator/.ssh/id_rsa):/Users/Administrator/.ssh/github/id_rsa_github </span><br><span class="line"><span class="comment"># 在回车提示中输入完整路径，如：/Users/Administrator/.ssh/github/id_rsa_github  </span></span><br><span class="line"><span class="comment">#文件命名后，按2次回车，密码为空  </span></span><br><span class="line">Enter passphrase (empty <span class="keyword">for</span> no passphrase):</span><br><span class="line">Enter same passphrase again:</span><br><span class="line"></span><br><span class="line">$ ssh-keygen -t rsa -C <span class="string">"youremail@example.com"</span></span><br><span class="line">Generating public/private rsa key pair.</span><br><span class="line">Enter file <span class="keyword">in</span> <span class="built_in">which</span> to save the key (/Users/Administrator/.ssh/id_rsa):/Users/Administrator/.ssh/company/id_rsa_company</span><br><span class="line">Enter passphrase (empty <span class="keyword">for</span> no passphrase):</span><br><span class="line">Enter same passphrase again:</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如果用户家目录中没有 <code>.ssh</code> 目录请自行创建<br>在这里我创建了两个目录 <code>github</code> 和 <code>company</code> ，分别用来存储不同项目的密钥，进行分类管理</p>
+</blockquote>
+<h3 id="New-SSH-key"><a href="#New-SSH-key" class="headerlink" title="New SSH key"></a>New SSH key</h3><ol>
+<li>把 <code>~/.ssh/github/id_rsa_github.pub</code> 的内容添加到Github的SSH keys中</li>
+<li>把 <code>~/.ssh/company/id_rsa_company.pub</code> 的内容添加到公司Gitlab的SSH keys中</li>
+</ol>
+<h3 id="新密钥添加到SSH-agent中"><a href="#新密钥添加到SSH-agent中" class="headerlink" title="新密钥添加到SSH agent中"></a>新密钥添加到SSH agent中</h3><p>添加新密钥到SSH agent，因为默认只读取id_rsa，为了让SSH识别新的私钥，需将其添加到SSH agent中：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-add -K ~/.ssh/github/id_rsa_github</span><br><span class="line">$ ssh-add -K ~/.ssh/company/id_rsa_company</span><br></pre></td></tr></table></figure>
+
+<p>如果出现Could not open a connection to your authentication agent的错误，就试着用以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-agent bash</span><br><span class="line">$ ssh-add -K ~/.ssh/github/id_rsa_github</span><br></pre></td></tr></table></figure>
+
+<p>使用 <code>ssh-add -l</code> 查看 ssh key 的设置</p>
+<h3 id="修改-config-文件"><a href="#修改-config-文件" class="headerlink" title="修改 config 文件"></a>修改 config 文件</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">$ vim ~/.ssh/config</span><br><span class="line">Host *</span><br><span class="line">    KexAlgorithms +diffie-hellman-group1-sha1</span><br><span class="line"><span class="comment"># default: myfirst</span></span><br><span class="line">Host github.com</span><br><span class="line">    HostName github.com</span><br><span class="line">    User myfirst</span><br><span class="line">    PreferredAuthentications publickey</span><br><span class="line">    IdentityFile ~/.ssh/github/id_rsa_github1</span><br><span class="line"><span class="comment"># mysecond</span></span><br><span class="line">Host mysecond.github.com</span><br><span class="line">    HostName github.com</span><br><span class="line">    User mysecond</span><br><span class="line">    PreferredAuthentications publickey</span><br><span class="line">    IdentityFile ~/.ssh/github/id_rsa_github2</span><br><span class="line">Host company.com</span><br><span class="line">    HostName company.com</span><br><span class="line">    User company</span><br><span class="line">    PreferredAuthentications publickey</span><br><span class="line">    IdentityFile ~/.ssh/company/id_rsa_company</span><br></pre></td></tr></table></figure>
+
+<p>其规则就是：从上至下读取config的内容，在每个Host下寻找对应的私钥。这里将GitHub SSH仓库地址中的<a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>替换成新建的Host别名如：mysecond.github.com，那么原地址是：<a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:test/Mywork.git，替换后应该是：mysecond.github.com:test/Mywork.git.</p>
+<h2 id="测试连通性"><a href="#测试连通性" class="headerlink" title="测试连通性"></a>测试连通性</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ssh -T git@github.com</span><br><span class="line"></span><br><span class="line">Hi youremail! You<span class="string">'ve successfully authenticated, but GitHub does not provide shell access.</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="项目测试"><a href="#项目测试" class="headerlink" title="项目测试"></a>项目测试</h2><h3 id="初始化项目-a"><a href="#初始化项目-a" class="headerlink" title="初始化项目 a"></a>初始化项目 a</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> ~/a</span><br><span class="line">$ git init</span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">"myfirst"</span> &gt; README.md</span><br><span class="line">$ git add README.md</span><br><span class="line">$ git config user.name <span class="string">"myfirst"</span></span><br><span class="line">$ git config user.email <span class="string">"myfirst@gmail.com"</span></span><br><span class="line">$ git remote add github git@github.com:myfirst/test.git</span><br><span class="line">$ git push -u github master</span><br><span class="line">Counting objects: 3, <span class="keyword">done</span>.</span><br><span class="line">Writing objects: 100% (3/3), 213 bytes | 213.00 KiB/s, <span class="keyword">done</span>.</span><br><span class="line">Total 3 (delta 0), reused 0 (delta 0)</span><br><span class="line">To github.com:myfirst/test.git</span><br><span class="line"> * [new branch]      master -&gt; master</span><br><span class="line">Branch master <span class="built_in">set</span> up to track remote branch master from github.</span><br></pre></td></tr></table></figure>
+
+<h3 id="初始化项目-b"><a href="#初始化项目-b" class="headerlink" title="初始化项目 b"></a>初始化项目 b</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> ~/b</span><br><span class="line">$ git init</span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">"mysecond"</span> &gt; README.md</span><br><span class="line">$ git add README.md</span><br><span class="line">$ git config user.name <span class="string">"mysecond"</span></span><br><span class="line">$ git config user.email <span class="string">"mysecond@gmail.com"</span></span><br><span class="line">$ git remote add github git@mysecond.github.com:mysecond/test.git</span><br><span class="line">$ git push -u github master</span><br><span class="line">Counting objects: 3, <span class="keyword">done</span>.</span><br><span class="line">Writing objects: 100% (3/3), 218 bytes | 218.00 KiB/s, <span class="keyword">done</span>.</span><br><span class="line">Total 3 (delta 0), reused 0 (delta 0)</span><br><span class="line">To mysecond.github.com:mysecond/test.git</span><br><span class="line"> * [new branch]      master -&gt; master</span><br><span class="line">Branch master <span class="built_in">set</span> up to track remote branch master from github.</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -575,6 +594,19 @@
 
     <footer class="post-footer">
       
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/工具/" rel="tag"># 工具</a>
+          
+            <a href="/tags/Git/" rel="tag"># Git</a>
+          
+            <a href="/tags/SSH/" rel="tag"># SSH</a>
+          
+        </div>
+      
 
       
       
@@ -584,8 +616,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/14/docs/05-nosql/mongodb-sharding/" rel="next" title="MongoDB 分片">
-                <i class="fa fa-chevron-left"></i> MongoDB 分片
+              <a href="/2018/02/21/docs/06-Linux/php-extension-swoole-install/" rel="next" title="Homestead 下安装Swoole扩展">
+                <i class="fa fa-chevron-left"></i> Homestead 下安装Swoole扩展
               </a>
             
           </div>
@@ -593,6 +625,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/13/docs/02-tools/shadowsocks-setting/" rel="prev" title="（转）CentOS7.4搭建shadowsocks，以及配置BBR加速">
+                （转）CentOS7.4搭建shadowsocks，以及配置BBR加速 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -663,7 +699,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-count">10</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -686,7 +722,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -717,7 +755,25 @@
                     
                       
                     
-                    <span class="site-state-item-count">7</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -777,7 +833,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#文档"><span class="nav-number">1.</span> <span class="nav-text">文档</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SSH配置"><span class="nav-number">2.</span> <span class="nav-text">SSH配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#取消全局设置的用户名和邮箱"><span class="nav-number">2.1.</span> <span class="nav-text">取消全局设置的用户名和邮箱</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生成私钥和公钥"><span class="nav-number">2.2.</span> <span class="nav-text">生成私钥和公钥</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#New-SSH-key"><span class="nav-number">2.3.</span> <span class="nav-text">New SSH key</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新密钥添加到SSH-agent中"><span class="nav-number">2.4.</span> <span class="nav-text">新密钥添加到SSH agent中</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改-config-文件"><span class="nav-number">2.5.</span> <span class="nav-text">修改 config 文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试连通性"><span class="nav-number">3.</span> <span class="nav-text">测试连通性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#项目测试"><span class="nav-number">4.</span> <span class="nav-text">项目测试</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化项目-a"><span class="nav-number">4.1.</span> <span class="nav-text">初始化项目 a</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化项目-b"><span class="nav-number">4.2.</span> <span class="nav-text">初始化项目 b</span></a></li></ol></li></ol></div>
             
 
           </div>

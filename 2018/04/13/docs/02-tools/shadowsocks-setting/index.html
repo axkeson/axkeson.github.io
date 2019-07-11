@@ -1,0 +1,1462 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext">
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.2.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <meta name="description" content="前言作为一个新世纪的码农，我们经常需要使用百度以及Google等搜索引擎搜索资料或搜索一些错误的解决方案，如果English好的还可能需要到stackoverflow里查看或提问一些开发中遇到的问题，再者可能还需要到youtube上查找一下教学、科普视频等等。还好的是stackoverflow部分不牵扯Google的内容在国内还是能够正常访问的，但是Google和youtube嘛大家都懂，所以本文">
+<meta name="keywords" content="工具,shadowsocks,翻墙">
+<meta property="og:type" content="article">
+<meta property="og:title" content="（转）CentOS7.4搭建shadowsocks，以及配置BBR加速">
+<meta property="og:url" content="http://yoursite.com/2018/04/13/docs/02-tools/shadowsocks-setting/index.html">
+<meta property="og:site_name" content="Axkeson&#39;s Notes">
+<meta property="og:description" content="前言作为一个新世纪的码农，我们经常需要使用百度以及Google等搜索引擎搜索资料或搜索一些错误的解决方案，如果English好的还可能需要到stackoverflow里查看或提问一些开发中遇到的问题，再者可能还需要到youtube上查找一下教学、科普视频等等。还好的是stackoverflow部分不牵扯Google的内容在国内还是能够正常访问的，但是Google和youtube嘛大家都懂，所以本文">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-07-11T17:07:00.289Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="（转）CentOS7.4搭建shadowsocks，以及配置BBR加速">
+<meta name="twitter:description" content="前言作为一个新世纪的码农，我们经常需要使用百度以及Google等搜索引擎搜索资料或搜索一些错误的解决方案，如果English好的还可能需要到stackoverflow里查看或提问一些开发中遇到的问题，再者可能还需要到youtube上查找一下教学、科普视频等等。还好的是stackoverflow部分不牵扯Google的内容在国内还是能够正常访问的，但是Google和youtube嘛大家都懂，所以本文">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2018/04/13/docs/02-tools/shadowsocks-setting/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>（转）CentOS7.4搭建shadowsocks，以及配置BBR加速 | Axkeson's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Axkeson's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">记录工作，记录生活，坚持改变！！！</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/404.html" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>公益 404</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/13/docs/02-tools/shadowsocks-setting/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Axkeson">
+      <meta itemprop="description" content="Practice makes perfect.">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Axkeson's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">（转）CentOS7.4搭建shadowsocks，以及配置BBR加速
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-04-13 22:09:00" itemprop="dateCreated datePublished" datetime="2018-04-13T22:09:00+08:00">2018-04-13</time>
+            </span>
+          
+
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/工具/" itemprop="url" rel="index"><span itemprop="name">工具</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>作为一个新世纪的码农，我们经常需要使用百度以及Google等搜索引擎搜索资料或搜索一些错误的解决方案，如果English好的还可能需要到stackoverflow里查看或提问一些开发中遇到的问题，再者可能还需要到youtube上查找一下教学、科普视频等等。还好的是stackoverflow部分不牵扯Google的内容在国内还是能够正常访问的，但是Google和youtube嘛大家都懂，所以本文就介绍一下如何在vps上搭建shadowsocks，让我们能够访问这些网站，以便于我门查阅资料，切勿用做其他不法用途。  </p>
+<h2 id="常见VPS的购买地址"><a href="#常见VPS的购买地址" class="headerlink" title="常见VPS的购买地址"></a>常见VPS的购买地址</h2><p>活跃于大街小巷的搬瓦工，也是适合新手使用的：</p>
+<blockquote>
+<p><a href="https://bwh1.net/" target="_blank" rel="noopener">https://bwh1.net/</a>  </p>
+</blockquote>
+<p>vultr</p>
+<blockquote>
+<p><a href="https://www.vultr.com/?ref=7315390" target="_blank" rel="noopener">https://www.vultr.com/?ref=7315390</a></p>
+</blockquote>
+<p>SugarHosts</p>
+<blockquote>
+<p><a href="https://www.sugarhosts.com/zh-cn/" target="_blank" rel="noopener">https://www.sugarhosts.com/zh-cn/</a></p>
+</blockquote>
+<p>Linode</p>
+<blockquote>
+<p><a href="https://www.linode.com/" target="_blank" rel="noopener">https://www.linode.com/</a></p>
+</blockquote>
+<p>Virmach</p>
+<blockquote>
+<p><a href="https://billing.virmach.com/cart.php?gid=1" target="_blank" rel="noopener">https://billing.virmach.com/cart.php?gid=1</a></p>
+</blockquote>
+<p>RAKSmart</p>
+<blockquote>
+<p><a href="https://billing.raksmart.com/" target="_blank" rel="noopener">https://billing.raksmart.com/</a></p>
+</blockquote>
+<p>Bluehost</p>
+<blockquote>
+<p><a href="https://cn.bluehost.com/" target="_blank" rel="noopener">https://cn.bluehost.com/</a></p>
+</blockquote>
+<p>DigitalOcean</p>
+<blockquote>
+<p><a href="https://www.digitalocean.com" target="_blank" rel="noopener">https://www.digitalocean.com</a></p>
+</blockquote>
+<p>以上这些都是国外的vps，国内的可以购买阿里云或者腾讯云等，国内没有遇到优惠的话就比较贵。</p>
+<h2 id="安装-pip"><a href="#安装-pip" class="headerlink" title="安装 pip"></a>安装 pip</h2><p>pip是python的包管理工具。在本文中将使用python版本的shadowsocks，此版本的shadowsocks已发不到pip上，因此我们需要通过pip命令来安装。  </p>
+<p>在控制台执行以下命令安装 pip：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ curl <span class="string">"https://bootstrap.pypa.io/get-pip.py"</span> -o <span class="string">"get-pip.py"</span></span><br><span class="line">$ python get-pip.py</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装配置-shadowsocks"><a href="#安装配置-shadowsocks" class="headerlink" title="安装配置 shadowsocks"></a>安装配置 shadowsocks</h2><p>在控制台执行以下命令安装shadowsocks:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ pip install --upgrade pip</span><br><span class="line">$ pip install shadowsocks</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后，需要创建shadowsocks的配置文件/etc/shadowsocks.json，编辑内容如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ vim /etc/shadowsocks.json</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"server"</span>: <span class="string">"0.0.0.0"</span>,</span><br><span class="line">  <span class="string">"local_address"</span>: <span class="string">"127.0.0.1"</span>,</span><br><span class="line">  <span class="string">"local_port"</span>: 1080,</span><br><span class="line">  <span class="string">"port_password"</span>: &#123;</span><br><span class="line">    <span class="string">"8080"</span>: <span class="string">"填写密码"</span>,</span><br><span class="line">    <span class="string">"8081"</span>: <span class="string">"填写密码"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"timeout"</span>: 600,</span><br><span class="line">  <span class="string">"method"</span>: <span class="string">"aes-256-cfb"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>说明  </p>
+<ul>
+<li>method为加密方法，可选aes-128-cfb,aes-192-cfb,aes-256-cfb,bf-cfb,cast5-cfb,des-cfb,rc4-md5,chacha20,rc4,table</li>
+<li>port_password为端口对应的密码，可使用密码生成工具生成一个随机密码</li>
+</ul>
+</blockquote>
+<p>以上两项信息在配置shadowsocks客户端时需要配置一致，具体说明可查看shadowsocks的帮助文档。</p>
+<p><strong>如果你不需要配置多个端口的话，仅配置单个端口，则可以使用以下配置：</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;server&quot;: &quot;0.0.0.0&quot;,</span><br><span class="line">  &quot;server_port&quot;: 8080,</span><br><span class="line">  &quot;password&quot;: &quot;填写密码&quot;,</span><br><span class="line">  &quot;method&quot;: &quot;aes-256-cfb&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>说明：</p>
+<ul>
+<li>server_port为服务监听端口</li>
+<li>password为密码</li>
+</ul>
+</blockquote>
+<p>同样的以上两项信息在配置 shadowsocks 客户端时需要配置一致。</p>
+<h2 id="配置自启动"><a href="#配置自启动" class="headerlink" title="配置自启动"></a>配置自启动</h2><p>编辑shadowsocks 服务的启动脚本文件，内容如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ vim /etc/systemd/system/shadowsocks.service</span><br><span class="line">[Unit]</span><br><span class="line">Description=Shadowsocks</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">TimeoutStartSec=0</span><br><span class="line">ExecStart=/usr/bin/ssserver -c /etc/shadowsocks.json</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
+
+<p>执行以下命令启动 shadowsocks 服务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ systemctl <span class="built_in">enable</span> shadowsocks</span><br><span class="line">$ systemctl start shadowsocks</span><br></pre></td></tr></table></figure>
+
+<p>检查 shadowsocks 服务是否已成功启动，可以执行以下命令查看服务的状态：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ systemctl status shadowsocks -l</span><br></pre></td></tr></table></figure>
+
+<p>确认服务启动成功后，配置防火墙规则，开放你配置的端口，不然客户端是无法连接的：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ firewall-cmd --zone=public --add-port=8080/tcp --permanent</span><br><span class="line">success</span><br><span class="line">$ firewall-cmd --zone=public --add-port=8081/tcp --permanent</span><br><span class="line">success</span><br><span class="line">$ firewall-cmd --reload</span><br><span class="line">success</span><br></pre></td></tr></table></figure>
+
+<h2 id="一键安装脚本代码"><a href="#一键安装脚本代码" class="headerlink" title="一键安装脚本代码"></a>一键安装脚本代码</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line"><span class="comment"># Install Shadowsocks on CentOS 7</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Installing Shadowsocks..."</span></span><br><span class="line"></span><br><span class="line">random-string()</span><br><span class="line">&#123;</span><br><span class="line">    cat /dev/urandom | tr -dc <span class="string">'a-zA-Z0-9'</span> | fold -w <span class="variable">$&#123;1:-32&#125;</span> | head -n 1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">CONFIG_FILE=/etc/shadowsocks.json</span><br><span class="line">SERVICE_FILE=/etc/systemd/system/shadowsocks.service</span><br><span class="line">SS_PASSWORD=$(random-string 32)</span><br><span class="line">SS_PORT=8388</span><br><span class="line">SS_METHOD=aes-256-cfb</span><br><span class="line">SS_IP=`ip route get 1 | awk <span class="string">'&#123;print $NF;exit&#125;'</span>`</span><br><span class="line">GET_PIP_FILE=/tmp/get-pip.py</span><br><span class="line"></span><br><span class="line"><span class="comment"># install pip</span></span><br><span class="line">curl <span class="string">"https://bootstrap.pypa.io/get-pip.py"</span> -o <span class="string">"<span class="variable">$&#123;GET_PIP_FILE&#125;</span>"</span></span><br><span class="line">python <span class="variable">$&#123;GET_PIP_FILE&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># install shadowsocks</span></span><br><span class="line">pip install --upgrade pip</span><br><span class="line">pip install shadowsocks</span><br><span class="line"></span><br><span class="line"><span class="comment"># create shadowsocls config</span></span><br><span class="line">cat &lt;&lt;EOF | sudo tee <span class="variable">$&#123;CONFIG_FILE&#125;</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"server"</span>: <span class="string">"0.0.0.0"</span>,</span><br><span class="line">  <span class="string">"server_port"</span>: <span class="variable">$&#123;SS_PORT&#125;</span>,</span><br><span class="line">  <span class="string">"password"</span>: <span class="string">"<span class="variable">$&#123;SS_PASSWORD&#125;</span>"</span>,</span><br><span class="line">  <span class="string">"method"</span>: <span class="string">"<span class="variable">$&#123;SS_METHOD&#125;</span>"</span></span><br><span class="line">&#125;</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"><span class="comment"># create service</span></span><br><span class="line">cat &lt;&lt;EOF | sudo tee <span class="variable">$&#123;SERVICE_FILE&#125;</span></span><br><span class="line">[Unit]</span><br><span class="line">Description=Shadowsocks</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">TimeoutStartSec=0</span><br><span class="line">ExecStart=/usr/bin/ssserver -c <span class="variable">$&#123;CONFIG_FILE&#125;</span></span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line"><span class="comment"># start service</span></span><br><span class="line">systemctl <span class="built_in">enable</span> shadowsocks</span><br><span class="line">systemctl start shadowsocks</span><br><span class="line"></span><br><span class="line"><span class="comment"># view service status</span></span><br><span class="line">sleep 5</span><br><span class="line">systemctl status shadowsocks -l</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"================================"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">""</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Congratulations! Shadowsocks has been installed on your system."</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"You shadowsocks connection info:"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"--------------------------------"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"server:      <span class="variable">$&#123;SS_IP&#125;</span>"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"server_port: <span class="variable">$&#123;SS_PORT&#125;</span>"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"password:    <span class="variable">$&#123;SS_PASSWORD&#125;</span>"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"method:      <span class="variable">$&#123;SS_METHOD&#125;</span>"</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"--------------------------------"</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="配置客户端"><a href="#配置客户端" class="headerlink" title="配置客户端"></a>配置客户端</h2><p>我这里配置的是windows的客户端，挺方便的，点击即用，不需要安装。</p>
+<p>Windows客户端下载地址：</p>
+<blockquote>
+<p><a href="https://github.com/shadowsocks/shadowsocks-windows/releases" target="_blank" rel="noopener">https://github.com/shadowsocks/shadowsocks-windows/releases</a></p>
+</blockquote>
+<p>Mac客户端下载地址：</p>
+<blockquote>
+<p><a href="https://github.com/shadowsocks/ShadowsocksX-NG/releases" target="_blank" rel="noopener">https://github.com/shadowsocks/ShadowsocksX-NG/releases</a></p>
+</blockquote>
+<p>Android客户端下载地址：</p>
+<blockquote>
+<p><a href="https://github.com/shadowsocks/shadowsocks-android/releases" target="_blank" rel="noopener">https://github.com/shadowsocks/shadowsocks-android/releases</a></p>
+</blockquote>
+<p>接着测试能否上Google搜索即可，以下的配置BBR加速则是选看，不配置也是可以正常使用shadowsocks的。</p>
+<h2 id="配置BBR加速"><a href="#配置BBR加速" class="headerlink" title="配置BBR加速"></a>配置BBR加速</h2><p>什么是BBR：</p>
+<p>TCP BBR是谷歌出品的TCP拥塞控制算法。BBR目的是要尽量跑满带宽，并且尽量不要有排队的情况。BBR可以起到单边加速TCP连接的效果。  </p>
+<p>Google提交到Linux主线并发表在ACM queue期刊上的TCP-BBR拥塞控制算法。继承了Google“先在生产环境上部署，再开源和发论文”的研究传统。TCP-BBR已经再YouTube服务器和Google跨数据中心的内部广域网(B4)上部署。由此可见出该算法的前途。  </p>
+<p>TCP-BBR的目标就是最大化利用网络上瓶颈链路的带宽。一条网络链路就像一条水管，要想最大化利用这条水管，最好的办法就是给这跟水管灌满水。  </p>
+<p>BBR解决了两个问题：</p>
+<ul>
+<li>在有一定丢包率的网络链路上充分利用带宽。非常适合高延迟，高带宽的网络链路。</li>
+<li>降低网络链路上的buffer占用率，从而降低延迟。非常适合慢速接入网络的用户。<br>Google 在 2016年9月份开源了他们的优化网络拥堵算法BBR，最新版本的 Linux内核(4.9-rc8)中已经集成了该算法。</li>
+</ul>
+<p>对于TCP单边加速，并非所有人都很熟悉，不过有另外一个大名鼎鼎的商业软件“锐速”，相信很多人都清楚。特别是对于使用国外服务器或者VPS的人来说，效果更佳。  </p>
+<p>BBR项目地址：</p>
+<blockquote>
+<p><a href="https://github.com/google/bbr" target="_blank" rel="noopener">https://github.com/google/bbr</a></p>
+</blockquote>
+<p>升级内核，第一步首先是升级内核到支持BBR的版本：<br>1.yum更新系统版本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ yum update</span><br></pre></td></tr></table></figure>
+
+<p>2.查看系统版本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cat /etc/redhat-release </span><br><span class="line">CentOS Linux release 7.4.1708 (Core)</span><br></pre></td></tr></table></figure>
+
+<p>3.安装elrepo并升级内核：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org</span><br><span class="line">$ rpm -Uvh http://www.elrepo.org/elrepo-release-7.0-2.el7.elrepo.noarch.rpm</span><br><span class="line">$ yum --enablerepo=elrepo-kernel install kernel-ml -y</span><br></pre></td></tr></table></figure>
+
+<p>4.更新grub文件并重启系统：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ egrep ^menuentry /etc/grub2.cfg | cut -f 2 -d \<span class="string">'</span></span><br><span class="line"><span class="string">CentOS Linux 7 Rescue 8619ff5e1306499eac41c02d3b23868e (4.14.14-1.el7.elrepo.x86_64)</span></span><br><span class="line"><span class="string">CentOS Linux (4.14.14-1.el7.elrepo.x86_64) 7 (Core)</span></span><br><span class="line"><span class="string">CentOS Linux (3.10.0-693.11.6.el7.x86_64) 7 (Core)</span></span><br><span class="line"><span class="string">CentOS Linux (3.10.0-693.el7.x86_64) 7 (Core)</span></span><br><span class="line"><span class="string">CentOS Linux (0-rescue-c73a5ccf3b8145c3a675b64c4c3ab1d4) 7 (Core)</span></span><br><span class="line"><span class="string">$ grub2-set-default 0</span></span><br><span class="line"><span class="string">$ reboot</span></span><br></pre></td></tr></table></figure>
+
+<p>5.重启完成后查看内核是否已更换为4.14版本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ uname -r</span><br><span class="line">4.14.14-1.el7.elrepo.x86_64</span><br></pre></td></tr></table></figure>
+
+<p>6.开启bbr：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ vim /etc/sysctl.conf    <span class="comment"># 在文件末尾添加如下内容</span></span><br><span class="line">net.core.default_qdisc = fq</span><br><span class="line">net.ipv4.tcp_congestion_control = bbr</span><br></pre></td></tr></table></figure>
+
+<p>7.加载系统参数：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sysctl -p</span><br><span class="line">net.ipv6.conf.all.accept_ra = 2</span><br><span class="line">net.ipv6.conf.eth0.accept_ra = 2</span><br><span class="line">net.core.default_qdisc = fq</span><br><span class="line">net.ipv4.tcp_congestion_control = bbr</span><br></pre></td></tr></table></figure>
+
+<p>如上，输出了我们添加的那两行配置代表正常。</p>
+<p>8.确定bbr已经成功开启：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sysctl net.ipv4.tcp_available_congestion_control</span><br><span class="line">net.ipv4.tcp_available_congestion_control = bbr cubic reno</span><br><span class="line">$ lsmod | grep bbr</span><br><span class="line">tcp_bbr                20480  2</span><br></pre></td></tr></table></figure>
+
+<p>输出内容如上，则表示bbr已经成功开启。</p>
+<p><strong>相关文章</strong></p>
+<ul>
+<li><a href="http://blog.51cto.com/zero01/2064660" target="_blank" rel="noopener">http://blog.51cto.com/zero01/2064660</a></li>
+<li><a href="https://github.com/shadowsocks/shadowsocks-libev" target="_blank" rel="noopener">https://github.com/shadowsocks/shadowsocks-libev</a></li>
+<li><a href="https://www.jianshu.com/p/4984f324010f" target="_blank" rel="noopener">https://www.jianshu.com/p/4984f324010f</a></li>
+</ul>
+<p>原文链接（如需转载，请注明出处）<br><a href="http://blog.51cto.com/zero01/2064660" target="_blank" rel="noopener">http://blog.51cto.com/zero01/2064660</a> </p>
+
+      
+    </div>
+
+    
+
+    
+      
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div id="reward-container">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！.</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+
+    
+      
+      
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/Wechat.jpeg" alt="Axkeson 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/工具/" rel="tag"># 工具</a>
+          
+            <a href="/tags/shadowsocks/" rel="tag"># shadowsocks</a>
+          
+            <a href="/tags/翻墙/" rel="tag"># 翻墙</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/25/docs/02-tools/git-multiple-accounts/" rel="next" title="Git 客户端多账号管理">
+                <i class="fa fa-chevron-left"></i> Git 客户端多账号管理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/07/17/docs/02-tools/psysh/" rel="prev" title="PsySh PHP交互控制台">
+                PsySh PHP交互控制台 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Axkeson">
+            
+              <p class="site-author-name" itemprop="name">Axkeson</p>
+              <div class="site-description motion-element" itemprop="description">Practice makes perfect.</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">16</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/axkeson" title="GitHub &rarr; https://github.com/axkeson" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:axkeson@gmail.com" title="E-Mail &rarr; mailto:axkeson@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常见VPS的购买地址"><span class="nav-number">2.</span> <span class="nav-text">常见VPS的购买地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-pip"><span class="nav-number">3.</span> <span class="nav-text">安装 pip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装配置-shadowsocks"><span class="nav-number">4.</span> <span class="nav-text">安装配置 shadowsocks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置自启动"><span class="nav-number">5.</span> <span class="nav-text">配置自启动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一键安装脚本代码"><span class="nav-number">6.</span> <span class="nav-text">一键安装脚本代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置客户端"><span class="nav-number">7.</span> <span class="nav-text">配置客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置BBR加速"><span class="nav-number">8.</span> <span class="nav-text">配置BBR加速</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Axkeson</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.2.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+  
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+
+
+  <script src="/js/utils.js?v=7.2.0"></script>
+
+  <script src="/js/motion.js?v=7.2.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.2.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.2.0"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.2.0"></script>
+<script src="/js/post-details.js?v=7.2.0"></script>
+
+
+
+  <script src="/js/next-boot.js?v=7.2.0"></script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
