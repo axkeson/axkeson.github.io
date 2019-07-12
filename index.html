@@ -1624,7 +1624,7 @@ SSH配置取消全局设置的用户名和邮箱$ git c
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/01/docs/02-tools/phpcs-ide-setting/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/10/06/docs/04-mysql/mysql-transaction/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Axkeson">
@@ -1644,7 +1644,7 @@ SSH配置取消全局设置的用户名和邮箱$ git c
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2016/01/01/docs/02-tools/phpcs-ide-setting/" class="post-title-link" itemprop="url">在IDE上安装代码规范检查工具</a>
+                <a href="/2016/10/06/docs/04-mysql/mysql-transaction/" class="post-title-link" itemprop="url">MySQL 事务详解</a>
               
             
           </h1>
@@ -1669,7 +1669,7 @@ SSH配置取消全局设置的用户名和邮箱$ git c
                 
               
 
-              <time title="创建时间：2016-01-01 08:00:00" itemprop="dateCreated datePublished" datetime="2016-01-01T08:00:00+08:00">2016-01-01</time>
+              <time title="创建时间：2016-10-06 09:23:00" itemprop="dateCreated datePublished" datetime="2016-10-06T09:23:00+08:00">2016-10-06</time>
             </span>
           
 
@@ -1684,7 +1684,7 @@ SSH配置取消全局设置的用户名和邮箱$ git c
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/工具/" itemprop="url" rel="index"><span itemprop="name">工具</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
 
                 
                 
@@ -1727,16 +1727,14 @@ SSH配置取消全局设置的用户名和邮箱$ git c
         
           
             <p>
-              我相信每个公司都有一套完备的代码规范标准，但标准是标准，如何能有效的让所有人遵守，那就要工具的辅助和实时提醒了。
-安装phpcs使用composer全局安装phpcs$ composer global require "squizlabs/php_codesniffer=*"
-
-具体可参考：http
+              简介MySQL事务主要用于处理操作量大，复杂度高的数据。由一步或几步数据库操作序列组成逻辑执行单元，这系列操作要么全部执行，要么全部放弃执行。在 MySQL 中只有使用了 Innodb 数据库引擎的数据库或表才支持事务。事务用来管理 insert,update,delete 语句。
+事务的基本特征（
               ...
             </p>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2016/01/01/docs/02-tools/phpcs-ide-setting/#more" rel="contents">
+              <a class="btn" href="/2016/10/06/docs/04-mysql/mysql-transaction/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1798,7 +1796,7 @@ SSH配置取消全局设置的用户名和邮箱$ git c
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/01/docs/01-program-life/01001/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/29/docs/04-mysql/mysql-explain/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Axkeson">
@@ -1818,7 +1816,7 @@ SSH配置取消全局设置的用户名和邮箱$ git c
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2016/01/01/docs/01-program-life/01001/" class="post-title-link" itemprop="url">（转）开发效率低？造成代码难以维护的35个恶习</a>
+                <a href="/2016/03/29/docs/04-mysql/mysql-explain/" class="post-title-link" itemprop="url">MySQL Explain详解</a>
               
             
           </h1>
@@ -1843,7 +1841,7 @@ SSH配置取消全局设置的用户名和邮箱$ git c
                 
               
 
-              <time title="创建时间：2016-01-01 00:01:00" itemprop="dateCreated datePublished" datetime="2016-01-01T00:01:00+08:00">2016-01-01</time>
+              <time title="创建时间：2016-03-29 23:08:00" itemprop="dateCreated datePublished" datetime="2016-03-29T23:08:00+08:00">2016-03-29</time>
             </span>
           
 
@@ -1858,7 +1856,7 @@ SSH配置取消全局设置的用户名和邮箱$ git c
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/程序人生/" itemprop="url" rel="index"><span itemprop="name">程序人生</span></a></span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
 
                 
                 
@@ -1901,19 +1899,20 @@ SSH配置取消全局设置的用户名和邮箱$ git c
         
           
             <p>
-              代码组织
-总是说”一会弄好”，但从来不兑现。(缺乏任务管理和时间管理能力)
-坚持所谓的高效、优雅的”一行代码流”，事实上，可读性才是最重的，聪明是第二位的。
-无意义的优化。(类似网页大小之类的优化最后在做)
-不注重代码样式和风格的严谨。
-使用无意义的命名。
-忽略经过验证的最佳实践。(例如代码审核、T
+              简介使用EXPLAIN关键字可以模拟优化器执行SQL查询语句，从而知道MySQL是如何处理你的SQL语句的。分析你的查询语句或是表结构的性能瓶颈。
+通过EXPLAIN，我们可以分析出以下结果
+表的读取顺序
+数据读取操作的操作类型
+哪些索引可以使用
+哪些索引被实际使用
+表之间的引用
+每张表有多少行被优
               ...
             </p>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2016/01/01/docs/01-program-life/01001/#more" rel="contents">
+              <a class="btn" href="/2016/03/29/docs/04-mysql/mysql-explain/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1975,7 +1974,7 @@ SSH配置取消全局设置的用户名和邮箱$ git c
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/01/01/docs/README/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2016/03/28/docs/04-mysql/mysql-index/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Axkeson">
@@ -1995,7 +1994,7 @@ SSH配置取消全局设置的用户名和邮箱$ git c
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2016/01/01/docs/README/" class="post-title-link" itemprop="url">文章列表</a>
+                <a href="/2016/03/28/docs/04-mysql/mysql-index/" class="post-title-link" itemprop="url">MySQL 索引详解</a>
               
             
           </h1>
@@ -2020,12 +2019,27 @@ SSH配置取消全局设置的用户名和邮箱$ git c
                 
               
 
-              <time title="创建时间：2016-01-01 00:00:00" itemprop="dateCreated datePublished" datetime="2016-01-01T00:00:00+08:00">2016-01-01</time>
+              <time title="创建时间：2016-03-28 18:43:00" itemprop="dateCreated datePublished" datetime="2016-03-28T18:43:00+08:00">2016-03-28</time>
             </span>
           
 
           
 
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/MySQL/" itemprop="url" rel="index"><span itemprop="name">MySQL</span></a></span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -2063,29 +2077,14 @@ SSH配置取消全局设置的用户名和邮箱$ git c
         
           
             <p>
-              
-目录
-程序人生
-开发效率低？造成代码难以维护的35个恶习
-
-
-工具
-在IDE上安装代码规范检查工具
-PsySh PHP交互控制台
-Git 客户端多账号管理
-CentOS7.4搭建shadowsocks，以及配置BBR加速
-
-
-PHP
-MySQL
-Linux
-Homestead 下安装Swoole扩
+              介绍什么是索引？一般的应用系统，读写比例在10:1左右，而且插入操作和一般的更新操作很少出现性能问题，在生产环境中，我们遇到最多的，也是最容易出问题的，还是一些复杂的查询操作，因此对查询语句的优化显然是重中之重。说起加速查询，就不得不提到索引了。
+为什么要有索引呢？索引在MySQL中也叫做“键”，是
               ...
             </p>
           <!--noindex-->
           
             <div class="post-button text-center">
-              <a class="btn" href="/2016/01/01/docs/README/#more" rel="contents">
+              <a class="btn" href="/2016/03/28/docs/04-mysql/mysql-index/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -2135,6 +2134,10 @@ Homestead 下安装Swoole扩
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+  </nav>
+
 
 
           </div>
@@ -2176,7 +2179,7 @@ Homestead 下安装Swoole扩
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">10</span>
+                    <span class="site-state-item-count">13</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -2201,7 +2204,9 @@ Homestead 下安装Swoole扩
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">分类</span>
                   </a>
                 </div>
@@ -2250,7 +2255,15 @@ Homestead 下安装Swoole扩
                     
                       
                     
-                    <span class="site-state-item-count">16</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">20</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
