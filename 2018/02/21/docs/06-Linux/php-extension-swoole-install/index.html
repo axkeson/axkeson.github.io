@@ -134,18 +134,18 @@
 
 
 
-  <meta name="description" content="前言尽管PHP软件源提供了不少PHP扩展，但并不是提供所有的扩展，那么如果我们需要安装一个软件源没有提供的扩展怎么办呢？利用 php-dev 就可以很方便的进行自行编译 PHP 扩展了，但是由于Homestaed内置了多个PHP版本，安装方式略有不同，不能简单粗暴的使用 pecl 安装了，因为安装好了不知道是给谁用的。下面分别介绍单一PHP和多版本PHP如何安装PHP扩展  注意：命令权限不够时">
+  <meta name="description" content="前言尽管PHP软件源提供了不少PHP扩展，但并不是提供所有的扩展，那么如果我们需要安装一个软件源没有提供的扩展怎么办呢？利用 php-dev 就可以很方便的进行自行编译 PHP 扩展了，但是由于Homestaed内置了多个PHP版本，安装方式略有不同，不能简单粗暴的使用 pecl 安装了，因为安装好了不知道是给谁用的。下面分别介绍单一PHP和多版本PHP如何安装PHP扩展  注意：命令权限不够时请">
 <meta name="keywords" content="PHP,Linux,Swoole">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Homestead 下安装Swoole扩展">
 <meta property="og:url" content="http://yoursite.com/2018/02/21/docs/06-Linux/php-extension-swoole-install/index.html">
 <meta property="og:site_name" content="Axkeson&#39;s Notes">
-<meta property="og:description" content="前言尽管PHP软件源提供了不少PHP扩展，但并不是提供所有的扩展，那么如果我们需要安装一个软件源没有提供的扩展怎么办呢？利用 php-dev 就可以很方便的进行自行编译 PHP 扩展了，但是由于Homestaed内置了多个PHP版本，安装方式略有不同，不能简单粗暴的使用 pecl 安装了，因为安装好了不知道是给谁用的。下面分别介绍单一PHP和多版本PHP如何安装PHP扩展  注意：命令权限不够时">
+<meta property="og:description" content="前言尽管PHP软件源提供了不少PHP扩展，但并不是提供所有的扩展，那么如果我们需要安装一个软件源没有提供的扩展怎么办呢？利用 php-dev 就可以很方便的进行自行编译 PHP 扩展了，但是由于Homestaed内置了多个PHP版本，安装方式略有不同，不能简单粗暴的使用 pecl 安装了，因为安装好了不知道是给谁用的。下面分别介绍单一PHP和多版本PHP如何安装PHP扩展  注意：命令权限不够时请">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-11T17:21:34.943Z">
+<meta property="og:updated_time" content="2019-07-17T17:46:54.555Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Homestead 下安装Swoole扩展">
-<meta name="twitter:description" content="前言尽管PHP软件源提供了不少PHP扩展，但并不是提供所有的扩展，那么如果我们需要安装一个软件源没有提供的扩展怎么办呢？利用 php-dev 就可以很方便的进行自行编译 PHP 扩展了，但是由于Homestaed内置了多个PHP版本，安装方式略有不同，不能简单粗暴的使用 pecl 安装了，因为安装好了不知道是给谁用的。下面分别介绍单一PHP和多版本PHP如何安装PHP扩展  注意：命令权限不够时">
+<meta name="twitter:description" content="前言尽管PHP软件源提供了不少PHP扩展，但并不是提供所有的扩展，那么如果我们需要安装一个软件源没有提供的扩展怎么办呢？利用 php-dev 就可以很方便的进行自行编译 PHP 扩展了，但是由于Homestaed内置了多个PHP版本，安装方式略有不同，不能简单粗暴的使用 pecl 安装了，因为安装好了不知道是给谁用的。下面分别介绍单一PHP和多版本PHP如何安装PHP扩展  注意：命令权限不够时请">
 
 
 
@@ -517,7 +517,7 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>尽管PHP软件源提供了不少PHP扩展，但并不是提供所有的扩展，那么如果我们需要安装一个软件源没有提供的扩展怎么办呢？利用 php-dev 就可以很方便的进行自行编译 PHP 扩展了，但是由于Homestaed内置了多个PHP版本，安装方式略有不同，不能简单粗暴的使用 pecl 安装了，因为安装好了不知道是给谁用的。下面分别介绍单一PHP和多版本PHP如何安装PHP扩展</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>尽管PHP软件源提供了不少PHP扩展，但并不是提供所有的扩展，那么如果我们需要安装一个软件源没有提供的扩展怎么办呢？利用 php-dev 就可以很方便的进行自行编译 PHP 扩展了，但是由于Homestaed内置了多个PHP版本，安装方式略有不同，不能简单粗暴的使用 pecl 安装了，因为安装好了不知道是给谁用的。下面分别介绍单一PHP和多版本PHP如何安装PHP扩展</p>
 <blockquote>
 <p>注意：命令权限不够时请自动在命令前加上sudo前缀提权；</p>
 </blockquote>
@@ -555,7 +555,7 @@
 
 <h3 id="重启php-fpm"><a href="#重启php-fpm" class="headerlink" title="重启php-fpm"></a>重启php-fpm</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo service php7.2-fpm restart</span><br></pre></td></tr></table></figure>
 
-<p>将7.2替换成5.6为php56添加swoole扩展  </p>
+<p>将7.2替换成5.6为php56添加swoole扩展  </p>
 <p>同理，什么mongodb、redis的扩展等等，也都能够通过类似的方法完成安装  </p>
 <h2 id="扩展：Homestead下修改cli模式下默认php版本"><a href="#扩展：Homestead下修改cli模式下默认php版本" class="headerlink" title="扩展：Homestead下修改cli模式下默认php版本"></a>扩展：Homestead下修改cli模式下默认php版本</h2><p>我们通过命令 <code>ll /usr/bin/php</code> 可以看到，php是<code>/etc/alternatives/php</code> 建立的链接文件</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lrwxrwxrwx 1 root root 21 Feb  3 19:53 /usr/bin/php -&gt; /etc/alternatives/php</span><br></pre></td></tr></table></figure>
@@ -565,6 +565,8 @@
 
 <p>所以我们只要修改 <code>/etc/alternatives/php</code> 的源文件即可修改cli模式下php的默认版本，命令如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mv /etc/alternatives/php</span><br><span class="line">$ sudo ln -s /usr/bin/php7.0 /etc/alternatives/php</span><br></pre></td></tr></table></figure>
+
+
       
     </div>
 
@@ -635,8 +637,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/14/docs/05-nosql/mongodb-sharding/" rel="next" title="MongoDB 分片">
-                <i class="fa fa-chevron-left"></i> MongoDB 分片
+              <a href="/2018/02/21/docs/06-Linux/aaa/" rel="next" title="Homestead 下安装Swoole扩展">
+                <i class="fa fa-chevron-left"></i> Homestead 下安装Swoole扩展
               </a>
             
           </div>
@@ -718,7 +720,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-count">25</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -824,7 +826,17 @@
                     
                       
                     
-                    <span class="site-state-item-count">29</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

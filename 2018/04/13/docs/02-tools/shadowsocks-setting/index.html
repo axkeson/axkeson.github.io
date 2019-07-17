@@ -142,7 +142,7 @@
 <meta property="og:site_name" content="Axkeson&#39;s Notes">
 <meta property="og:description" content="前言作为一个新世纪的码农，我们经常需要使用百度以及Google等搜索引擎搜索资料或搜索一些错误的解决方案，如果English好的还可能需要到stackoverflow里查看或提问一些开发中遇到的问题，再者可能还需要到youtube上查找一下教学、科普视频等等。还好的是stackoverflow部分不牵扯Google的内容在国内还是能够正常访问的，但是Google和youtube嘛大家都懂，所以本文">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-11T17:07:00.289Z">
+<meta property="og:updated_time" content="2019-07-17T17:46:54.527Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="（转）CentOS7.4搭建shadowsocks，以及配置BBR加速">
 <meta name="twitter:description" content="前言作为一个新世纪的码农，我们经常需要使用百度以及Google等搜索引擎搜索资料或搜索一些错误的解决方案，如果English好的还可能需要到stackoverflow里查看或提问一些开发中遇到的问题，再者可能还需要到youtube上查找一下教学、科普视频等等。还好的是stackoverflow部分不牵扯Google的内容在国内还是能够正常访问的，但是Google和youtube嘛大家都懂，所以本文">
@@ -551,14 +551,14 @@
 <p><a href="https://www.digitalocean.com" target="_blank" rel="noopener">https://www.digitalocean.com</a></p>
 </blockquote>
 <p>以上这些都是国外的vps，国内的可以购买阿里云或者腾讯云等，国内没有遇到优惠的话就比较贵。</p>
-<h2 id="安装-pip"><a href="#安装-pip" class="headerlink" title="安装 pip"></a>安装 pip</h2><p>pip是python的包管理工具。在本文中将使用python版本的shadowsocks，此版本的shadowsocks已发不到pip上，因此我们需要通过pip命令来安装。  </p>
+<h2 id="安装-pip"><a href="#安装-pip" class="headerlink" title="安装 pip"></a>安装 pip</h2><p>pip是python的包管理工具。在本文中将使用python版本的shadowsocks，此版本的shadowsocks已发不到pip上，因此我们需要通过pip命令来安装。  </p>
 <p>在控制台执行以下命令安装 pip：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ curl <span class="string">"https://bootstrap.pypa.io/get-pip.py"</span> -o <span class="string">"get-pip.py"</span></span><br><span class="line">$ python get-pip.py</span><br></pre></td></tr></table></figure>
 
 <h2 id="安装配置-shadowsocks"><a href="#安装配置-shadowsocks" class="headerlink" title="安装配置 shadowsocks"></a>安装配置 shadowsocks</h2><p>在控制台执行以下命令安装shadowsocks:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ pip install --upgrade pip</span><br><span class="line">$ pip install shadowsocks</span><br></pre></td></tr></table></figure>
 
-<p>安装完成后，需要创建shadowsocks的配置文件/etc/shadowsocks.json，编辑内容如下：</p>
+<p>安装完成后，需要创建shadowsocks的配置文件/etc/shadowsocks.json，编辑内容如下：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ vim /etc/shadowsocks.json</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  <span class="string">"server"</span>: <span class="string">"0.0.0.0"</span>,</span><br><span class="line">  <span class="string">"local_address"</span>: <span class="string">"127.0.0.1"</span>,</span><br><span class="line">  <span class="string">"local_port"</span>: 1080,</span><br><span class="line">  <span class="string">"port_password"</span>: &#123;</span><br><span class="line">    <span class="string">"8080"</span>: <span class="string">"填写密码"</span>,</span><br><span class="line">    <span class="string">"8081"</span>: <span class="string">"填写密码"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="string">"timeout"</span>: 600,</span><br><span class="line">  <span class="string">"method"</span>: <span class="string">"aes-256-cfb"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <blockquote>
@@ -809,7 +809,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-count">25</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -915,7 +915,17 @@
                     
                       
                     
-                    <span class="site-state-item-count">29</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>

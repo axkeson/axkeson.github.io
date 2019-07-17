@@ -134,18 +134,18 @@
 
 
 
-  <meta name="description" content="SET PASSWORD 命令123格式:mysql&amp;gt; SET PASSWORD FOR 用户名@localhost = PASSWORD(&amp;apos;新密码&amp;apos;)  mysql&amp;gt; SET PASSWORD FOR root@localhost = PASSWORD(&amp;apos;123456&amp;apos;);  使用 mysqladmin 命令123格式:mysqladmin">
+  <meta name="description" content="SET PASSWORD 命令123格式:mysql&amp;gt; SET PASSWORD FOR 用户名@localhost = PASSWORD(&amp;apos;新密码&amp;apos;)  mysql&amp;gt; SET PASSWORD FOR root@localhost = PASSWORD(&amp;apos;123456&amp;apos;);  使用 mysqladmin 命令123格式:mysqladmin -">
 <meta name="keywords" content="MySQL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MySQL 修改root密码的几种方法">
 <meta property="og:url" content="http://yoursite.com/2016/01/25/docs/04-mysql/mysql-root-password-update/index.html">
 <meta property="og:site_name" content="Axkeson&#39;s Notes">
-<meta property="og:description" content="SET PASSWORD 命令123格式:mysql&amp;gt; SET PASSWORD FOR 用户名@localhost = PASSWORD(&amp;apos;新密码&amp;apos;)  mysql&amp;gt; SET PASSWORD FOR root@localhost = PASSWORD(&amp;apos;123456&amp;apos;);  使用 mysqladmin 命令123格式:mysqladmin">
+<meta property="og:description" content="SET PASSWORD 命令123格式:mysql&amp;gt; SET PASSWORD FOR 用户名@localhost = PASSWORD(&amp;apos;新密码&amp;apos;)  mysql&amp;gt; SET PASSWORD FOR root@localhost = PASSWORD(&amp;apos;123456&amp;apos;);  使用 mysqladmin 命令123格式:mysqladmin -">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-15T06:40:47.374Z">
+<meta property="og:updated_time" content="2019-07-17T17:46:54.533Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MySQL 修改root密码的几种方法">
-<meta name="twitter:description" content="SET PASSWORD 命令123格式:mysql&amp;gt; SET PASSWORD FOR 用户名@localhost = PASSWORD(&amp;apos;新密码&amp;apos;)  mysql&amp;gt; SET PASSWORD FOR root@localhost = PASSWORD(&amp;apos;123456&amp;apos;);  使用 mysqladmin 命令123格式:mysqladmin">
+<meta name="twitter:description" content="SET PASSWORD 命令123格式:mysql&amp;gt; SET PASSWORD FOR 用户名@localhost = PASSWORD(&amp;apos;新密码&amp;apos;)  mysql&amp;gt; SET PASSWORD FOR root@localhost = PASSWORD(&amp;apos;123456&amp;apos;);  使用 mysqladmin 命令123格式:mysqladmin -">
 
 
 
@@ -519,7 +519,7 @@
       
         <h2 id="SET-PASSWORD-命令"><a href="#SET-PASSWORD-命令" class="headerlink" title="SET PASSWORD 命令"></a>SET PASSWORD 命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">格式:mysql&gt; SET PASSWORD FOR 用户名@localhost = PASSWORD(&apos;新密码&apos;)  </span><br><span class="line"></span><br><span class="line">mysql&gt; SET PASSWORD FOR root@localhost = PASSWORD(&apos;123456&apos;);</span><br></pre></td></tr></table></figure>
 
-<h2 id="使用-mysqladmin-命令"><a href="#使用-mysqladmin-命令" class="headerlink" title="使用 mysqladmin 命令"></a>使用 mysqladmin 命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">格式:mysqladmin -u用户名 -p旧密码 password 新密码;  </span><br><span class="line"></span><br><span class="line">$ mysqladmin -uroot -p123456 password 12345678;</span><br></pre></td></tr></table></figure>
+<h2 id="使用-mysqladmin-命令"><a href="#使用-mysqladmin-命令" class="headerlink" title="使用 mysqladmin 命令"></a>使用 mysqladmin 命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">格式:mysqladmin -u用户名 -p旧密码 password 新密码;  </span><br><span class="line"></span><br><span class="line">$ mysqladmin -uroot -p123456 password 12345678;</span><br></pre></td></tr></table></figure>
 
 <h2 id="使用-update-直接编辑-user-表"><a href="#使用-update-直接编辑-user-表" class="headerlink" title="使用 update 直接编辑 user 表"></a>使用 update 直接编辑 user 表</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; USE mysql;  </span><br><span class="line">mysql&gt; UPDATE user SET password = password(&apos;123456&apos;) WHERE user = &apos;root&apos; AND host = &apos;loclhoast&apos;;  </span><br><span class="line">mysql&gt; flush privileges;</span><br></pre></td></tr></table></figure>
 
@@ -528,13 +528,13 @@
 <h3 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h3><ol>
 <li>关闭正在运行的MySQL服务  </li>
 <li>打开DOS窗口,转到mysql/bin目录  </li>
-<li>输入mysqld –skip-grant-tables回车。–skip-grant-tables的意思是启动MySQL服务的时候跳过权限表认证  </li>
+<li>输入<code>mysqld --skip-grant-tables</code>回车。<code>--skip-grant-tables</code>的意思是启动MySQL服务的时候跳过权限表认证  </li>
 <li>再打开一个DOS窗口(因为刚才那个DOS窗口已经不能动啦),转到mysql/bin目录  </li>
 <li>输入mysql回车,如果成功,将出现MySQL提示符 &gt;  </li>
-<li>修改密码:UPDATE user SET password = password(‘123456’) WHERE user = ‘root’  </li>
-<li>刷新权限(必须):flush priviliges;  </li>
-<li>退出:quit  </li>
-<li>注销系统,再进入使用户名root和刚才设置的新密码123456登录</li>
+<li>修改密码:<code>UPDATE user SET password = password(&#39;123456&#39;) WHERE user = &#39;root&#39;</code></li>
+<li>刷新权限(必须):<code>flush priviliges</code>;  </li>
+<li>退出:<code>quit</code>  </li>
+<li>注销系统,再进入使用户名root和刚才设置的新密码123456登录  </li>
 </ol>
 <p><strong>相关文章</strong></p>
 <p><a href="https://coderwall.com/p/j9btlg/reset-the-mysql-5-7-root-password-in-ubuntu-16-04-lts" target="_blank" rel="noopener">https://coderwall.com/p/j9btlg/reset-the-mysql-5-7-root-password-in-ubuntu-16-04-lts</a>  </p>
@@ -688,7 +688,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-count">25</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -794,7 +794,17 @@
                     
                       
                     
-                    <span class="site-state-item-count">29</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">34</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -854,7 +864,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SET-PASSWORD-命令"><span class="nav-number">1.</span> <span class="nav-text">SET PASSWORD 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-mysqladmin-命令"><span class="nav-number">2.</span> <span class="nav-text">使用 mysqladmin 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-update-直接编辑-user-表"><span class="nav-number">3.</span> <span class="nav-text">使用 update 直接编辑 user 表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在忘记root密码的时候-可以这样"><span class="nav-number">4.</span> <span class="nav-text">在忘记root密码的时候,可以这样</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux"><span class="nav-number">4.1.</span> <span class="nav-text">Linux</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#windows"><span class="nav-number">4.2.</span> <span class="nav-text">windows</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#SET-PASSWORD-命令"><span class="nav-number">1.</span> <span class="nav-text">SET PASSWORD 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-mysqladmin-命令"><span class="nav-number">2.</span> <span class="nav-text">使用 mysqladmin 命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-update-直接编辑-user-表"><span class="nav-number">3.</span> <span class="nav-text">使用 update 直接编辑 user 表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在忘记root密码的时候-可以这样"><span class="nav-number">4.</span> <span class="nav-text">在忘记root密码的时候,可以这样</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux"><span class="nav-number">4.1.</span> <span class="nav-text">Linux</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#windows"><span class="nav-number">4.2.</span> <span class="nav-text">windows</span></a></li></ol></li></ol></div>
             
 
           </div>
