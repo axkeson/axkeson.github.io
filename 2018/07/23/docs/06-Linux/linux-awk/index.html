@@ -137,14 +137,14 @@
   <meta name="description" content="简介awk是一个强大的文本分析工具，相对于grep的查找，sed的编辑，awk在其对数据分析并生成报告时，显得尤为强大。简单来说awk就是把文件逐行的读入，以空格为默认分隔符将每行切片，切开的部分再进行各种分析处理。 awk有3个不同版本: awk、nawk和gawk，未作特别说明，一般指gawk，gawk 是 AWK 的 GNU 版本。 awk其名称得自于它的创始人 Alfred Aho 、Pe">
 <meta name="keywords" content="Linux,awk">
 <meta property="og:type" content="article">
-<meta property="og:title" content="TODO AWK 简明教程">
+<meta property="og:title" content="AWK 简明教程">
 <meta property="og:url" content="http://yoursite.com/2018/07/23/docs/06-Linux/linux-awk/index.html">
 <meta property="og:site_name" content="Axkeson&#39;s Notes">
 <meta property="og:description" content="简介awk是一个强大的文本分析工具，相对于grep的查找，sed的编辑，awk在其对数据分析并生成报告时，显得尤为强大。简单来说awk就是把文件逐行的读入，以空格为默认分隔符将每行切片，切开的部分再进行各种分析处理。 awk有3个不同版本: awk、nawk和gawk，未作特别说明，一般指gawk，gawk 是 AWK 的 GNU 版本。 awk其名称得自于它的创始人 Alfred Aho 、Pe">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-07-18T15:18:47.744Z">
+<meta property="og:updated_time" content="2019-08-02T05:06:23.966Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="TODO AWK 简明教程">
+<meta name="twitter:title" content="AWK 简明教程">
 <meta name="twitter:description" content="简介awk是一个强大的文本分析工具，相对于grep的查找，sed的编辑，awk在其对数据分析并生成报告时，显得尤为强大。简单来说awk就是把文件逐行的读入，以空格为默认分隔符将每行切片，切开的部分再进行各种分析处理。 awk有3个不同版本: awk、nawk和gawk，未作特别说明，一般指gawk，gawk 是 AWK 的 GNU 版本。 awk其名称得自于它的创始人 Alfred Aho 、Pe">
 
 
@@ -163,7 +163,7 @@
   };
 </script>
 
-  <title>TODO AWK 简明教程 | Axkeson's Notes</title>
+  <title>AWK 简明教程 | Axkeson's Notes</title>
   
 
 
@@ -436,7 +436,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">TODO AWK 简明教程
+          <h1 class="post-title" itemprop="name headline">AWK 简明教程
 
               
             
@@ -681,7 +681,17 @@
 <td>数组成员</td>
 </tr>
 </tbody></table>
-<h2 id="调用awk"><a href="#调用awk" class="headerlink" title="调用awk"></a>调用awk</h2><h2 id="入门实例"><a href="#入门实例" class="headerlink" title="入门实例"></a>入门实例</h2>
+<h2 id="入门实例"><a href="#入门实例" class="headerlink" title="入门实例"></a>入门实例</h2><h3 id="Linux下查看使用频率最高的十个命令"><a href="#Linux下查看使用频率最高的十个命令" class="headerlink" title="Linux下查看使用频率最高的十个命令"></a>Linux下查看使用频率最高的十个命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$  history | awk &apos;&#123;CMD[$2]++;count++;&#125; END &#123; for (a in CMD )print CMD[ a ]&quot; &quot; CMD[ a ]/count*100 &quot;% &quot; a &#125;&apos; | grep -v &quot;./&quot; | column -c3 -s &quot; &quot; -t |sort -nr | nl | head -n10</span><br><span class="line"></span><br><span class="line">     1	43  22.0513%   ll</span><br><span class="line">     2	41  21.0256%   cd</span><br><span class="line">     3	24  12.3077%   php</span><br><span class="line">     4	15  7.69231%   sudo</span><br><span class="line">     5	8   4.10256%   nginx</span><br><span class="line">     6	6   3.07692%   vim</span><br><span class="line">     7	6   3.07692%   find</span><br><span class="line">     8	5   2.5641%    logout</span><br><span class="line">     9	4   2.05128%   pwd</span><br><span class="line">    10	4   2.05128%   ngixn</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看有多少个IP访问"><a href="#查看有多少个IP访问" class="headerlink" title="查看有多少个IP访问"></a>查看有多少个IP访问</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ awk &apos;&#123;print $1&#125;&apos; log_file|sort|uniq|wc -l</span><br></pre></td></tr></table></figure>
+
+<h3 id="将每个IP访问的页面数进行从小到大排序"><a href="#将每个IP访问的页面数进行从小到大排序" class="headerlink" title="将每个IP访问的页面数进行从小到大排序"></a>将每个IP访问的页面数进行从小到大排序</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ awk &apos;&#123;++S[$1]&#125; END &#123;for (a in S) print S[a],a&#125;&apos; log_file | sort -n</span><br></pre></td></tr></table></figure>
+
+<h3 id="查看某一个IP访问了哪些页面"><a href="#查看某一个IP访问了哪些页面" class="headerlink" title="查看某一个IP访问了哪些页面"></a>查看某一个IP访问了哪些页面</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ grep ^111.111.111.111 log_file| awk &apos;&#123;print $1,$7&#125;&apos;</span><br></pre></td></tr></table></figure>
+
+<p><strong>相关文章</strong></p>
+<p><a href="https://segmentfault.com/a/1190000009745139" target="_blank" rel="noopener">https://segmentfault.com/a/1190000009745139</a><br><a href="http://wiki.jikexueyuan.com/project/awk" target="_blank" rel="noopener">http://wiki.jikexueyuan.com/project/awk</a>  </p>
+
       
     </div>
 
@@ -833,7 +843,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">35</span>
+                    <span class="site-state-item-count">36</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -989,7 +999,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">54</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">56</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
@@ -1049,7 +1063,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用方法"><span class="nav-number">2.</span> <span class="nav-text">使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内键变量"><span class="nav-number">3.</span> <span class="nav-text">内键变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#运算符"><span class="nav-number">3.1.</span> <span class="nav-text">运算符</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调用awk"><span class="nav-number">4.</span> <span class="nav-text">调用awk</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#入门实例"><span class="nav-number">5.</span> <span class="nav-text">入门实例</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用方法"><span class="nav-number">2.</span> <span class="nav-text">使用方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内键变量"><span class="nav-number">3.</span> <span class="nav-text">内键变量</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#运算符"><span class="nav-number">3.1.</span> <span class="nav-text">运算符</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#入门实例"><span class="nav-number">4.</span> <span class="nav-text">入门实例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux下查看使用频率最高的十个命令"><span class="nav-number">4.1.</span> <span class="nav-text">Linux下查看使用频率最高的十个命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看有多少个IP访问"><span class="nav-number">4.2.</span> <span class="nav-text">查看有多少个IP访问</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#将每个IP访问的页面数进行从小到大排序"><span class="nav-number">4.3.</span> <span class="nav-text">将每个IP访问的页面数进行从小到大排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看某一个IP访问了哪些页面"><span class="nav-number">4.4.</span> <span class="nav-text">查看某一个IP访问了哪些页面</span></a></li></ol></li></ol></div>
             
 
           </div>
