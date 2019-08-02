@@ -332,6 +332,30 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[PHP 中 echo print print_r() var_dump() 的区别]]></title>
+    <url>%2F2016%2F08%2F27%2Fdocs%2F03-php%2Fphp-output-way%2F</url>
+    <content type="text"><![CDATA[简述echo可以一次输出多个值，多个值之间用逗号分隔。echo是语言结构(language construct)，而并不是真正的函数，因此不能作为表达式的一部分使用。 print()函数print()打印一个值（它的参数），如果字符串成功显示则返回true，否则返回false。 print_r()可以把字符串和数字简单地打印出来，而数组则以括起来的键和值得列表形式显示，并以Array开头。但print_r()输出布尔值和NULL的结果没有意义，因为都是打印”\n”。因此用var_dump()函数更适合调试。 var_dump()判断一个变量的类型与长度,并输出变量的数值,如果变量有值输的是变量的值并回返数据类型。此函数显示关于一个或多个表达式的结构信息，包括表达式的类型与值。数组将递归展开值，通过缩进显示其结构。 疑问它们都有返回值吗 echo 没有返回值，返回会报错 print 有返回值 print_r() 有返回值 var_dump()有返回值，但是返回值是NULL 关于带不带括号 echo 可带，可不带 print 可带，可不带 print_r() 必须带 var_dump() 必须带 可否输出多个变量 echo 可以（不可加括号） print 不可以 print_r() 不可以 var_dump() 可以 可以打印的数据类型 echo: 可以输出「字符型，整形，浮点型，布尔型，资源」；不可以输出「数组，对象」（会报错）不会输出「NULL」（不会报错） print: 可以输出「字符型，整形，浮点型，布尔型，资源」；不可以输出「数组，对象」（会报错）不会输出「NULL」（不会报错）和echo表现一致 print_r: 可以输出「字符型，整形，浮点型，布尔型，数组，对象，资源」不会输出“「NULL」（不会报错） var_dump: 可以输出「字符型，整形，浮点型，布尔型，数组，对象，资源，NULL」]]></content>
+      <categories>
+        <category>PHP</category>
+      </categories>
+      <tags>
+        <tag>PHP</tag>
+        <tag>echo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[PHP 获取指定文件下所有文件]]></title>
+    <url>%2F2016%2F08%2F09%2Fdocs%2F03-php%2Fphp-list-file%2F</url>
+    <content type="text"><![CDATA[scandir123456789101112131415161718&lt;?phpfunction getFiles($path)&#123; foreach (scandir($path) as $file) &#123; if ($file == '.' || $file == '..') &#123; continue; &#125; if (is_dir($file)) &#123; getFiles($path.'/'.$file); &#125; else &#123; echo $path.'/'.$file.PHP_EOL; &#125; &#125;&#125;getFiles(__DIR__); glob12345678910111213function getFiles($path)&#123; foreach (glob($path) as $file) &#123; if (is_dir($file)) &#123; getFiles($file.'/*'); &#125; else &#123; echo $file.PHP_EOL; &#125; &#125;&#125;getFiles(__DIR__); readdir123456789101112131415161718192021function getFiles($path)&#123; echo $path; $handle = opendir($path); while (false !== ($file = readdir($handle))) &#123; if ($file == "." || $file == "..") &#123; continue; &#125; if (is_dir($file)) &#123; getFiles($path.'/'.$file); &#125; echo $path.'/'.$file.PHP_EOL; &#125; closedir($handle);&#125;getFiles(__DIR__); 迭代器12345678910111213141516function getFiles($path)&#123; $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path)); foreach ($iterator as $file =&gt; $fileInfo) &#123; $name = $fileInfo-&gt;getFilename(); if ($name == '.' || $name == '..') &#123; continue; &#125; echo $name.PHP_EOL; &#125;&#125;getFiles(__DIR__);]]></content>
+      <categories>
+        <category>PHP</category>
+      </categories>
+      <tags>
+        <tag>PHP</tag>
+        <tag>file</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[PHP 截取文件后缀的几种方法]]></title>
     <url>%2F2016%2F05%2F12%2Fdocs%2F03-php%2Fphp-get-file-ext%2F</url>
     <content type="text"><![CDATA[expload 函数1234567&lt;?phpfunction getExt($path)&#123; $ext = explode('.', $path); return end($ext);&#125; strrpos 函数12345&lt;?phpfunction getExt($path)&#123; return substr($path, strrpos($path, '.')+1);&#125; strrchr 函数12345&lt;?phpfunction getExt($path)&#123; return substr(strrchr($path, '.'), 1);&#125; pathinfo 函数12345&lt;?phpfunction getExt($path)&#123; return pathinfo($path, PATHINFO_EXTENSION);&#125;]]></content>
@@ -442,6 +466,6 @@
   <entry>
     <title><![CDATA[文章列表]]></title>
     <url>%2F2016%2F01%2F01%2Fdocs%2FREADME%2F</url>
-    <content type="text"><![CDATA[目录 程序人生 开发效率低？造成代码难以维护的35个恶习 工具 在IDE上安装代码规范检查工具 AB 性能测试工具使用说明 PsySh PHP交互控制台 Git 客户端多账号管理 CentOS7.4搭建shadowsocks，以及配置BBR加速 PHP PHP 面向对象和面向过程的区别 PHP 垃圾回收机制 PHP 截取文件后缀的几种方法 PHP 关于 self 和 static PHP 自动加载原理解析 PHP 7 新特性 限制IP某个时间段内访问的次数 Laravel Facades 原理解析 PHP 抽象类和接口的区别 MySQL MySQL 数据库安装 MySQL 修改root密码的几种方法 MySQL 事务详解 MySQL 索引详解 MySQL Explain详解 比较全面的MySQL优化参考 Linux Homestead 下安装Swoole扩展 TODO Nginx+php-fpm 运行原理 AWK 简明教程 NoSQL MongoDB 基础教程 MongoDB 复制（副本集） MongoDB 分片 数据存储 计算机基础 HTTP状态码 HTTP和HTTPS的区别与联系 TODO 从输入 URL 到页面加载完成的过程中都发生了什么事情？ 正则表达式速查表 COOKIE、SESSION、TOKEN各自的优缺点都有哪些？ 关于 RESTful API 设计的总结 单点登录（SSO） 数据结构与算法]]></content>
+    <content type="text"><![CDATA[目录 程序人生 开发效率低？造成代码难以维护的35个恶习 工具 在IDE上安装代码规范检查工具 AB 性能测试工具使用说明 PsySh PHP交互控制台 Git 客户端多账号管理 CentOS7.4搭建shadowsocks，以及配置BBR加速 PHP PHP 面向对象和面向过程的区别 PHP 垃圾回收机制 PHP 截取文件后缀的几种方法 PHP 关于 self 和 static PHP 自动加载原理解析 PHP 7 新特性 限制IP某个时间段内访问的次数 Laravel Facades 原理解析 PHP 抽象类和接口的区别 PHP 获取指定文件下所有文件 PHP 中 echo、print、print_r()、var_dump() 的区别 MySQL MySQL 数据库安装 MySQL 修改root密码的几种方法 MySQL 事务详解 MySQL 索引详解 MySQL Explain详解 比较全面的MySQL优化参考 Linux Homestead 下安装Swoole扩展 TODO Nginx+php-fpm 运行原理 AWK 简明教程 NoSQL MongoDB 基础教程 MongoDB 复制（副本集） MongoDB 分片 数据存储 计算机基础 HTTP状态码 HTTP和HTTPS的区别与联系 TODO 从输入 URL 到页面加载完成的过程中都发生了什么事情？ 正则表达式速查表 COOKIE、SESSION、TOKEN各自的优缺点都有哪些？ 关于 RESTful API 设计的总结 单点登录（SSO） 数据结构与算法]]></content>
   </entry>
 </search>
