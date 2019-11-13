@@ -1,0 +1,1565 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext">
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.2.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <meta name="description" content="缓存及过期键处理及键淘汰策略缓存现在几乎是所有中大型网站都在用的必杀技，合理的利用缓存不仅能够提升网站访问速度，还能大大降低数据库的压力。Redis提供了键过期功能，也提供了灵活的键淘汰策略，所以，现在Redis用在缓存的场合非常多。 在redis中可以通过如下命令设置键的生存时间或生命周期：  EXPIRE KEY TTL 命令用于将key的生存时间设置为ttl秒 PEXPIRE KEY TTL">
+<meta name="keywords" content="redis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis 应用场景">
+<meta property="og:url" content="http://yoursite.com/2019/04/21/docs/07-redis/redis-use-scenario/index.html">
+<meta property="og:site_name" content="Axkeson&#39;s Notes">
+<meta property="og:description" content="缓存及过期键处理及键淘汰策略缓存现在几乎是所有中大型网站都在用的必杀技，合理的利用缓存不仅能够提升网站访问速度，还能大大降低数据库的压力。Redis提供了键过期功能，也提供了灵活的键淘汰策略，所以，现在Redis用在缓存的场合非常多。 在redis中可以通过如下命令设置键的生存时间或生命周期：  EXPIRE KEY TTL 命令用于将key的生存时间设置为ttl秒 PEXPIRE KEY TTL">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/04/21/docs/07-redis/redis-use-scenario/redis-use-scenario-02.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/21/docs/07-redis/redis-use-scenario/redis-use-scenario-01.jpeg">
+<meta property="og:updated_time" content="2019-11-13T09:53:33.087Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Redis 应用场景">
+<meta name="twitter:description" content="缓存及过期键处理及键淘汰策略缓存现在几乎是所有中大型网站都在用的必杀技，合理的利用缓存不仅能够提升网站访问速度，还能大大降低数据库的压力。Redis提供了键过期功能，也提供了灵活的键淘汰策略，所以，现在Redis用在缓存的场合非常多。 在redis中可以通过如下命令设置键的生存时间或生命周期：  EXPIRE KEY TTL 命令用于将key的生存时间设置为ttl秒 PEXPIRE KEY TTL">
+<meta name="twitter:image" content="http://yoursite.com/2019/04/21/docs/07-redis/redis-use-scenario/redis-use-scenario-02.png">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/04/21/docs/07-redis/redis-use-scenario/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Redis 应用场景 | Axkeson's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Axkeson's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">博客文章迁移整理中...</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/404.html" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>公益 404</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/21/docs/07-redis/redis-use-scenario/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Axkeson">
+      <meta itemprop="description" content="Practice makes perfect.">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Axkeson's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Redis 应用场景
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-04-21 16:04:00" itemprop="dateCreated datePublished" datetime="2019-04-21T16:04:00+08:00">2019-04-21</time>
+            </span>
+          
+
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Redis/" itemprop="url" rel="index"><span itemprop="name">Redis</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="缓存及过期键处理及键淘汰策略"><a href="#缓存及过期键处理及键淘汰策略" class="headerlink" title="缓存及过期键处理及键淘汰策略"></a>缓存及过期键处理及键淘汰策略</h2><p>缓存现在几乎是所有中大型网站都在用的必杀技，合理的利用缓存不仅能够提升网站访问速度，还能大大降低数据库的压力。Redis提供了键过期功能，也提供了灵活的键淘汰策略，所以，现在Redis用在缓存的场合非常多。</p>
+<p>在redis中可以通过如下命令设置键的生存时间或生命周期：</p>
+<ul>
+<li>EXPIRE KEY TTL 命令用于将key的生存时间设置为ttl秒</li>
+<li>PEXPIRE KEY TTL 命令用于将key的生存时间设置为ttl毫秒</li>
+<li>EXPIREAT KEY TIMESTAMP 命令用于将key的过期时间设置为timestamp所指定的秒数时间戳</li>
+<li>PEXPIREAT KEY TIMESTAMP 命令用于将key的过期时间设置为timestamp所指定的毫秒时间戳</li>
+<li>PERSIST KEY 移除key的过期时间</li>
+</ul>
+<p><strong>Redis是如何判断一个键过期的呢？</strong></p>
+<p>在redis中维护了一个expires字典，里面保存了数据库中所有设置了过期时间的键的过期时间，称为过期字典。我们可以用ttl（time to live）命令去查看key的剩余生存秒数，也可以用pttl查看key的剩余生存毫秒数，过程即是拿着key去expires字典中获取到key的过期毫秒时间戳，再减去当前时间戳，即可得到key的剩余生存时间。</p>
+<p>而判断key是否过期，也是通过过期字典来完成的：</p>
+<ol>
+<li>首先检查给定键是否存在于过期字典中，若存在则取得键的过期时间</li>
+<li>检查当前UNIX时间戳是否大于键的过期时间，如果是的话则键已过期，若否则未过期</li>
+</ol>
+<p><strong>Redis的过期键删除策略：</strong></p>
+<p>如果一个键过期了那肯定是需要删除的，否则留在仍然留在内存中会导致取到过期数据，同时也浪费内存，那它什么时候会被删除呢？有两种策略：</p>
+<ol>
+<li>惰性删除策略：程序在取出键时才对key进行过期检查，若过期则删除，否则照常执行，这个策略对cpu是友好的，因为不用额外的线程去自动清理过期key，但是是对内存不友好的，因为如果一直没有对这些过期键进行获取的话，这些键会一直留在内存中，造成垃圾数据内存泄漏</li>
+<li>定期删除策略：每隔一段时间执行一次删除过期键的操作，并通过限制删除操作执行的时常和频率来减少删除操作对cpu时间的影响</li>
+</ol>
+<p><strong>Redis综合了这两种策略来实现过期键的删除：</strong></p>
+<ol>
+<li>首先所有读写数据库的redis命令在执行之前都会对输入键通过过期字典进行检查，如果已过期则将key删除，然后再执行请求命令，该返回空返回空，该set值set值；</li>
+<li>redis还实现了定期删除策略，在规定的时间内，分多次遍历服务器的各个数据库，从数据库的expires字典中随机抽查一部分键的过期时间，并删除其中过期键</li>
+</ol>
+<p>通过两种策略的结合，redis实现了过期键删除的时间与空间的平衡。</p>
+<p><strong>内存不足时Redis的键淘汰策</strong></p>
+<p><img src="/2019/04/21/docs/07-redis/redis-use-scenario/redis-use-scenario-02.png" alt="avatar"></p>
+<p>redis在32位系统有最大内存限制3G，但是在64位系统并未有限制，因此我们需要在redis.conf文件中设置其最大占用内存值，否则将无限制使用内存甚至把服务器撑爆。设置方法如下：</p>
+<p>maxmemory 100mb</p>
+<p>当内存达到设置的最大值之后，再次进行写操作，redi会首先根据配置的键淘汰策略尝试淘汰数据，释放空间；若是未设置淘汰策略或是根据淘汰策略仍不能清理出空间，则拒绝写操作，但是读操作并不影响。</p>
+<p>因此，我们在设置了最大使用内存后还得配置合适的键淘汰策略，以使redis服务更高可用。根据redis.conf注释我们知道键淘汰策略有如下几种：</p>
+<p>volatile-lru：使用LRU算法进行数据淘汰（淘汰上次使用时间最早的，且使用次数最少的key），只淘汰设定了有效期的key</p>
+<p>allkeys-lru：使用LRU算法进行数据淘汰，所有的key都可以被淘汰</p>
+<p>volatile-random：随机淘汰数据，只淘汰设定了有效期的key</p>
+<p>allkeys-random：随机淘汰数据，所有的key都可以被淘汰</p>
+<p>volatile-ttl：淘汰剩余有效期最短的key</p>
+<p>redis默认的淘汰策略为noeviction，即不淘汰，显然是不行的，我们需要根据不同的应用场景配置不同的淘汰策略。推荐使用volatile-lru，对于很重要的、更新又不频繁的数据不应该设置过期时间，而对于更新频率较高，或是对一致性要求较高的数据可以设置过期时间，然后通过volatile-lru，对于这些设置了过期时间的键值，通过least-recently-used最近不常使用的规则进行删除，保留热点数据，提高缓存命中率。</p>
+<p>需要注意的是，如果是redis集群配置了主从复制的话，maxmemory不能设置得跟服务器主机内存太接近，因为主从复制将占用一部分内存，最好保证一定的内存余量。</p>
+<h2 id="排行榜"><a href="#排行榜" class="headerlink" title="排行榜"></a>排行榜</h2><p>很多网站都有排行榜应用的，如京东的月度销量榜单、商品按时间的上新排行榜等。Redis提供的有序集合数据类构能实现各种复杂的排行榜应用。</p>
+<p>Redis 有序集合和集合一样也是string类型元素的集合,且不允许重复的成员。</p>
+<p>不同的是每个元素都会关联一个double类型的分数。redis正是通过分数来为集合中的成员进行从小到大的排序。</p>
+<p>有序集合的成员是唯一的,但分数(score)却可以重复。</p>
+<p>集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是O(1)。 集合中最大的成员数为 232 - 1 (4294967295, 每个集合可存储40多亿个成员)。</p>
+<p><img src="/2019/04/21/docs/07-redis/redis-use-scenario/redis-use-scenario-01.jpeg" alt="avatar"></p>
+<p><strong>示例</strong></p>
+<p>一个典型的游戏排行榜包括以下常见功能：</p>
+<ol>
+<li><p>能够记录每个玩家的分数；</p>
+</li>
+<li><p>能够对玩家的分数进行更新；</p>
+</li>
+<li><p>能够查询每个玩家的分数和名次；</p>
+</li>
+<li><p>能够按名次查询排名前N名的玩家；</p>
+</li>
+<li><p>能够查询排在指定玩家前后M名的玩家。</p>
+</li>
+</ol>
+<p>更进一步，上面的操作都需要在短时间内实时完成，这样才能最大程度发挥排行榜的效用。</p>
+<p>由于一个玩家名次上升x位将会引起x+1位玩家的名次发生变化（包括该玩家），如果采用传统数据库（比如MySQL）来实现排行榜，当玩家人数较多时，将会导致对数据库的频繁修改，性能得不到满足，所以我们只能另想它法。</p>
+<p>假设lb为排行榜名称，user1、user2等为玩家唯一标识。</p>
+<h3 id="zadd-——-设置玩家分数"><a href="#zadd-——-设置玩家分数" class="headerlink" title="zadd —— 设置玩家分数"></a>zadd —— 设置玩家分数</h3><p>命令格式：zadd 排行榜名称 分数 玩家标识<br>时间复杂度：O(log(N))</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zadd lb 79 user1</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; zadd lb 83 user2</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; zadd lb 97 user3</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; zadd lb 90 user4</span><br><span class="line">(integer) 1</span><br></pre></td></tr></table></figure>
+
+<h3 id="zscore-——-查看玩家分数"><a href="#zscore-——-查看玩家分数" class="headerlink" title="zscore —— 查看玩家分数"></a>zscore —— 查看玩家分数</h3><p>命令格式：zscore 排行榜名称 玩家标识<br>时间复杂度：O(1)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zscore lb user1</span><br><span class="line">&quot;79&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="zrevrange-——-按名次查看排行榜"><a href="#zrevrange-——-按名次查看排行榜" class="headerlink" title="zrevrange —— 按名次查看排行榜"></a>zrevrange —— 按名次查看排行榜</h3><p>命令格式：zrevrange 排行榜名称 起始位置 结束位置 [withscores]<br>时间复杂度：O(log(N)+M)</p>
+<p>由于排行榜一般是按照分数由高到低排序的，所以我们使用zrevrange，而命令zrange是按照分数由低到高排序。</p>
+<p>起始位置和结束位置都是以0开始的索引，且都包含在内。如果结束位置为-1则查看范围为整个排行榜。</p>
+<p>带上withscores则会返回玩家分数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zrevrange lb 0 -1 withscores</span><br><span class="line">1) &quot;user3&quot;</span><br><span class="line">2) &quot;97&quot;</span><br><span class="line">3) &quot;user4&quot;</span><br><span class="line">4) &quot;90&quot;</span><br><span class="line">5) &quot;user2&quot;</span><br><span class="line">6) &quot;83&quot;</span><br><span class="line">7) &quot;user1&quot;</span><br><span class="line">8) &quot;79&quot;</span><br><span class="line">127.0.0.1:6379&gt; zrevrange lb 0 2 withscores</span><br><span class="line">1) &quot;user3&quot;</span><br><span class="line">2) &quot;97&quot;</span><br><span class="line">3) &quot;user4&quot;</span><br><span class="line">4) &quot;90&quot;</span><br><span class="line">5) &quot;user2&quot;</span><br><span class="line">6) &quot;83&quot;</span><br><span class="line">127.0.0.1:6379&gt; zrevrange lb 0 2</span><br><span class="line">1) &quot;user3&quot;</span><br><span class="line">2) &quot;user4&quot;</span><br><span class="line">3) &quot;user2&quot;</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="zrevrank-——-查看玩家排名"><a href="#zrevrank-——-查看玩家排名" class="headerlink" title="zrevrank —— 查看玩家排名"></a>zrevrank —— 查看玩家排名</h3><p>命令格式：zrevrank 排行榜名称 玩家标识<br>时间复杂度：O(log(N))</p>
+<p>与zrevrange类似，zrevrank是以分数由高到低的排序返回玩家排名（实际返回的是以0开始的索引），对应的zrank则是以分数由低到高的排序返回排名。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zrevrank lb user3</span><br><span class="line">(integer) 0</span><br><span class="line">127.0.0.1:6379&gt; zrevrank lb user1</span><br><span class="line">(integer) 3</span><br></pre></td></tr></table></figure>
+
+<h3 id="zincrby-——-增减玩家分数"><a href="#zincrby-——-增减玩家分数" class="headerlink" title="zincrby —— 增减玩家分数"></a>zincrby —— 增减玩家分数</h3><p>命令格式：zincrby 排行榜名称 分数增量 玩家标识<br>时间复杂度：O(log(N))</p>
+<p>有的排行榜是在变更时重新设置玩家的分数，而还有的排行榜则是以增量方式修改玩家分数，增量可正可负。如果执行zincrby时玩家尚不在排行榜中，则认为其原始分数为0，相当于执行zdd。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zincrby lb 10 user4</span><br><span class="line">&quot;100&quot;</span><br><span class="line">127.0.0.1:6379&gt; zrevrange lb 0 -1 withscores</span><br><span class="line">1) &quot;user4&quot;</span><br><span class="line">2) &quot;100&quot;</span><br><span class="line">3) &quot;user3&quot;</span><br><span class="line">4) &quot;97&quot;</span><br><span class="line">5) &quot;user2&quot;</span><br><span class="line">6) &quot;83&quot;</span><br><span class="line">7) &quot;user1&quot;</span><br><span class="line">8) &quot;79&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="zrem-——-移除某个玩家"><a href="#zrem-——-移除某个玩家" class="headerlink" title="zrem —— 移除某个玩家"></a>zrem —— 移除某个玩家</h3><p>命令格式：zrem 排行榜名称 玩家标识<br>时间复杂度：O(log(N))</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; zrem lb user4</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; zrevrange lb 0 -1 withscores</span><br><span class="line">1) &quot;user3&quot;</span><br><span class="line">2) &quot;97&quot;</span><br><span class="line">3) &quot;user2&quot;</span><br><span class="line">4) &quot;83&quot;</span><br><span class="line">5) &quot;user1&quot;</span><br><span class="line">6) &quot;79&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="del-——-删除排行榜名称"><a href="#del-——-删除排行榜名称" class="headerlink" title="del —— 删除排行榜名称"></a>del —— 删除排行榜名称</h3><p>排行榜对象在我们首次调用zadd或zincrby时被创建，当我们要删除它时，调用redis通用的命令del即可。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; del lb</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; get lb</span><br><span class="line">(nil)</span><br><span class="line">127.0.0.1:6379&gt; zrevrange lb 0 -1 withscores</span><br><span class="line">(empty list or set)</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="相同分数问题"><a href="#相同分数问题" class="headerlink" title="相同分数问题"></a>相同分数问题</h3><p>免费的方案总有那么一些不完美。从前面的例子我们可以看到，user2和user3具有相同的分数，但在按分数逆序排序时，user3排在了user2前面。而在实际应用场景中，我们更希望看到user2排在user3前面，因为user2比user3先加入排行榜，也就是说user2先到达该分数。</p>
+<p>但Redis在遇到分数相同时是按照集合成员自身的字典顺序来排序，这里即是按照”user2″和”user3″这两个字符串进行排序，以逆序排序的话user3自然排到了前面。</p>
+<p>要解决这个问题，我们可以考虑在分数中加入时间戳，计算公式为：</p>
+<p>带时间戳的分数 = 实际分数*10000000000 + (9999999999 – timestamp)</p>
+<p>timestamp我们采用系统提供的time()函数，也就是1970年1月1日以来的秒数，我们采用32位的时间戳（这能坚持到2038年），由于32位时间戳是10位十进制整数（最大值4294967295），所以我们让时间戳占据低10位（十进制整数），实际分数则扩大10^10倍，然后把两部分相加的结果作为zset的分数。考虑到要按时间倒序排列，所以时间戳这部分需要颠倒一下，这便是用9999999999减去时间戳的原因。当我们要读取玩家实际分数时，只需去掉后10位即可。</p>
+<p>初步看起来这个方案还不错，但这里面有两个问题。</p>
+<p>第一个问题是小问题，采用秒为时间戳可能区分度还不够，如果同一秒出现两个分数相同的仍然会出现前面的问题，当然我们可以选择精度更高的时间戳，但在实际场景中，同一秒谁排前面已经无关紧要。</p>
+<p>第二个问题是大问题，因为Redis的分数类型采用的是double，64位双精度浮点数只有52位有效数字，它能精确表达的整数范围为-253到253，最高只能表示16位十进制整数（最大值为9007199254740992，其实连16位也不能完整表示）。这就是说，如果前面时间戳占了10位的话，分数就只剩下6位了，这对于某些排行榜分数来说是不够用的。我们可以考虑缩减时间戳位数，比如从2015年1月1日开始计时，但这仍然增加不了几位。或者减少区分度，以分钟、小时来作为时间戳单位。</p>
+<p>如果Redis的分数类型为int64，我们就没有上面的烦恼。说到这里，其实Redis真应该再额外提供一个int64类型的ZSet，但目前只能是幻想，除非自己改其源码。</p>
+<p>既然Redis也不能完美解决排行榜问题，那最终是不是有必要自己实现一个专门的排行榜数据结构呢？毕竟实际应用中的排行榜有很多可以优化的地方，比玩家呈金字塔分布，越是低分段玩家数量越多，同一分数拥有大量玩家，玩家增加一分都可能超越很多玩家，这就为优化提供了可能。</p>
+<h2 id="计数器"><a href="#计数器" class="headerlink" title="计数器"></a>计数器</h2><p>什么是计数器，如电商网站商品的浏览量、视频网站视频的播放数等。为了保证数据实时效，每次浏览都得给+1，并发量高时如果每次都请求数据库操作无疑是种挑战和压力。Redis提供的incr命令来实现计数器功能，内存操作，性能非常好，非常适用于这些计数场景。</p>
+<p><strong>INCR key</strong></p>
+<p>将 key 中储存的数字值增一。</p>
+<p>如果 key 不存在，那么 key 的值会先被初始化为 0 ，然后再执行 INCR 操作。</p>
+<p>如果值包含错误的类型，或字符串类型的值不能表示为数字，那么返回一个错误。</p>
+<p>这是一个针对字符串的操作，因为 Redis 没有专用的整数类型，所以 key 内储存的字符串被解释为十进制 64 位有符号整数来执行 INCR 操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; incr test</span><br><span class="line">(integer) 11</span><br><span class="line">127.0.0.1:6379&gt; get test</span><br><span class="line">&quot;11&quot;</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="计数器的实现"><a href="#计数器的实现" class="headerlink" title="计数器的实现"></a>计数器的实现</h3><p>计数器是 Redis 的原子性自增操作可实现的最直观的模式了，它的想法相当简单：每当某个操作发生时，向 Redis 发送一个 INCR 命令。</p>
+<p>比如在一个 web 应用程序中，如果想知道用户在一年中每天的点击量，那么只要将用户 ID 以及相关的日期信息作为键，并在每次用户点击页面时，执行一次自增操作即可。</p>
+<p>比如用户名是 peter ，点击时间是 2012 年 3 月 22 日，那么执行命令 INCR peter::2012.3.22 。</p>
+<p>以下是防止刷单的逻辑示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$redisKey = “api_name_” + $api;</span><br><span class="line"></span><br><span class="line">$count = $this-&gt;redis-&gt;incr($redisKey);</span><br><span class="line"></span><br><span class="line">if ($count == 1) &#123;</span><br><span class="line">    //设置有效期一s</span><br><span class="line">    $this-&gt;redis-&gt;expire($redisKey,1);// 设置一s的过期时间</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if (count &gt; 200) &#123;// 防止刷单的安全拦截</span><br><span class="line">    return false;// 超过就返回false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="聚合分类"><a href="#聚合分类" class="headerlink" title="聚合分类"></a>聚合分类</h2><p>redis set是集合类型的数据结构，那么集合类型就比较适合用于聚合分类。</p>
+<ol>
+<li>标签：比如我们博客网站常常使用到的兴趣标签，把一个个有着相同爱好，关注类似内容的用户利用一个标签把他们进行归并。</li>
+<li>共同好友功能，共同喜好，或者可以引申到二度好友之类的扩展应用。</li>
+<li>统计网站的独立IP。利用set集合当中元素不唯一性，可以快速实时统计访问网站的独立IP。</li>
+</ol>
+<p><strong>案例：</strong></p>
+<p>在微博应用中，可以将一个用户所有的关注人存在一个集合中，将其所有粉丝存在一个集合。Redis还为集合提供了求交集、并集、差集等操作，可以非常方便的实现如共同关注、共同喜好、二度好友等功能，对上面的所有集合操作，你还可以使用不同的命令选择将结果返回给客户端还是存集到一个新的集合中。</p>
+<p>交集，并集，差集</p>
+<p>//tag表使用集合来存储数据，因为集合擅长求交集、并集</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; sadd tag:ruby 1</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; sadd tag:ruby 2</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; sadd tag:web 2</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; sadd tag:erlang 3</span><br><span class="line">(integer) 1</span><br><span class="line">127.0.0.1:6379&gt; SDIFF tag:ruby tag:web</span><br><span class="line">1) &quot;1&quot;</span><br><span class="line">127.0.0.1:6379&gt; sinter tag:ruby tag:web</span><br><span class="line">1) &quot;2&quot;</span><br><span class="line">127.0.0.1:6379&gt; sunion tag:ruby tag:web</span><br><span class="line">1) &quot;1&quot;</span><br><span class="line">2) &quot;2&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="秒杀"><a href="#秒杀" class="headerlink" title="秒杀"></a>秒杀</h2><p>Redis列表是简单的字符串列表，按照插入顺序排序。你可以添加一个元素到列表的头部（左边）或者尾部（右边）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">127.0.0.1:6379&gt; LPUSH testkey redis 1</span><br><span class="line">(integer) 2</span><br><span class="line">127.0.0.1:6379&gt; LPUSH testkey mongodb 2</span><br><span class="line">(integer) 4</span><br><span class="line">127.0.0.1:6379&gt; LPUSH testkey mysql 3</span><br><span class="line">(integer) 6</span><br><span class="line">127.0.0.1:6379&gt; LRANGE testkey 0 10</span><br><span class="line">1) &quot;3&quot;</span><br><span class="line">2) &quot;mysql&quot;</span><br><span class="line">3) &quot;2&quot;</span><br><span class="line">4) &quot;mongodb&quot;</span><br><span class="line">5) &quot;1&quot;</span><br><span class="line">6) &quot;redis&quot;</span><br><span class="line">127.0.0.1:6379&gt;</span><br></pre></td></tr></table></figure>
+
+<p>秒杀场景防止商品超卖：</p>
+<ol>
+<li>数据库中设置商品数量为无符号型，即不允许负数。当更新商品数量到负数时，返回false。</li>
+<li>商品数量存在Redis的list队列中，每次抢购就pop删除一个元素出队列。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//存放商品数量的队列</span><br><span class="line">for($j =1; $j &lt;= 10; $j++)&#123; //设置商品数量为10</span><br><span class="line">    $re = Redis::lpush(gooods_count,1);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 判断商品数量逻辑</span><br><span class="line"></span><br><span class="line">$count = Redis::lpop(&apos;gooods_count&apos;);//$count = Redis::llen(&apos;gooods_count&apos;); //llen判断队列长度if(!$count)&#123;return&apos;已经抢光了哦&apos;;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+    
+
+    
+      
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div id="reward-container">
+  <div>您的支持将鼓励我继续创作！.</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+
+    
+      
+      
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/Wechat.jpeg" alt="Axkeson 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/redis/" rel="tag"># redis</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/14/docs/07-redis/redis-cluster/" rel="next" title="使用 Docker 搭建 Redis 主从集群哨兵监控">
+                <i class="fa fa-chevron-left"></i> 使用 Docker 搭建 Redis 主从集群哨兵监控
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/29/docs/03-php/lara-facades/" rel="prev" title="Laravel Facades 原理解析">
+                Laravel Facades 原理解析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Axkeson">
+            
+              <p class="site-author-name" itemprop="name">Axkeson</p>
+              <div class="site-description motion-element" itemprop="description">Practice makes perfect.</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">46</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">8</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">66</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/axkeson" title="GitHub &rarr; https://github.com/axkeson" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:axkeson@gmail.com" title="E-Mail &rarr; mailto:axkeson@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#缓存及过期键处理及键淘汰策略"><span class="nav-number">1.</span> <span class="nav-text">缓存及过期键处理及键淘汰策略</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#排行榜"><span class="nav-number">2.</span> <span class="nav-text">排行榜</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#zadd-——-设置玩家分数"><span class="nav-number">2.1.</span> <span class="nav-text">zadd —— 设置玩家分数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zscore-——-查看玩家分数"><span class="nav-number">2.2.</span> <span class="nav-text">zscore —— 查看玩家分数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zrevrange-——-按名次查看排行榜"><span class="nav-number">2.3.</span> <span class="nav-text">zrevrange —— 按名次查看排行榜</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zrevrank-——-查看玩家排名"><span class="nav-number">2.4.</span> <span class="nav-text">zrevrank —— 查看玩家排名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zincrby-——-增减玩家分数"><span class="nav-number">2.5.</span> <span class="nav-text">zincrby —— 增减玩家分数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#zrem-——-移除某个玩家"><span class="nav-number">2.6.</span> <span class="nav-text">zrem —— 移除某个玩家</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#del-——-删除排行榜名称"><span class="nav-number">2.7.</span> <span class="nav-text">del —— 删除排行榜名称</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相同分数问题"><span class="nav-number">2.8.</span> <span class="nav-text">相同分数问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计数器"><span class="nav-number">3.</span> <span class="nav-text">计数器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#计数器的实现"><span class="nav-number">3.1.</span> <span class="nav-text">计数器的实现</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聚合分类"><span class="nav-number">4.</span> <span class="nav-text">聚合分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#秒杀"><span class="nav-number">5.</span> <span class="nav-text">秒杀</span></a></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Axkeson</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.2.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+  
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+
+
+  <script src="/js/utils.js?v=7.2.0"></script>
+
+  <script src="/js/motion.js?v=7.2.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.2.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.2.0"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.2.0"></script>
+<script src="/js/post-details.js?v=7.2.0"></script>
+
+
+
+  <script src="/js/next-boot.js?v=7.2.0"></script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
