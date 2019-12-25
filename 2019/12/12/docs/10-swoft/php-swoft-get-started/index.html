@@ -1,0 +1,1543 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext">
+  
+
+
+
+
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0">
+
+<link rel="stylesheet" href="/css/main.css?v=7.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=7.2.0" color="#222">
+
+
+
+
+
+
+
+<script id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '7.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <meta name="description" content="开发准备环境需求 安装PHP并且版本至少 &amp;gt;7.1, 推荐使用 7.2+ 安装 composer PHP 包管理器 连接迭代器依赖 pcre 库 安装php扩展 swoole, 并且版本至少 &amp;gt;4.3.0，推荐使用最新稳定版本 其他需要安装和启用的php扩展有：PDO redis  有冲突的下面列出一些已知的和swoole有冲突的php扩展，请使用swoft时不要安装或禁用它们：  x">
+<meta name="keywords" content="PHP,Swoft">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swoft 起步">
+<meta property="og:url" content="http://yoursite.com/2019/12/12/docs/10-swoft/php-swoft-get-started/index.html">
+<meta property="og:site_name" content="Axkeson&#39;s Notes">
+<meta property="og:description" content="开发准备环境需求 安装PHP并且版本至少 &amp;gt;7.1, 推荐使用 7.2+ 安装 composer PHP 包管理器 连接迭代器依赖 pcre 库 安装php扩展 swoole, 并且版本至少 &amp;gt;4.3.0，推荐使用最新稳定版本 其他需要安装和启用的php扩展有：PDO redis  有冲突的下面列出一些已知的和swoole有冲突的php扩展，请使用swoft时不要安装或禁用它们：  x">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://yoursite.com/2019/12/12/docs/10-swoft/php-swoft-get-started/php-swoft-get-started-01.gif">
+<meta property="og:updated_time" content="2019-12-25T03:46:27.783Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Swoft 起步">
+<meta name="twitter:description" content="开发准备环境需求 安装PHP并且版本至少 &amp;gt;7.1, 推荐使用 7.2+ 安装 composer PHP 包管理器 连接迭代器依赖 pcre 库 安装php扩展 swoole, 并且版本至少 &amp;gt;4.3.0，推荐使用最新稳定版本 其他需要安装和启用的php扩展有：PDO redis  有冲突的下面列出一些已知的和swoole有冲突的php扩展，请使用swoft时不要安装或禁用它们：  x">
+<meta name="twitter:image" content="http://yoursite.com/2019/12/12/docs/10-swoft/php-swoft-get-started/php-swoft-get-started-01.gif">
+
+
+
+
+
+  
+  
+  <link rel="canonical" href="http://yoursite.com/2019/12/12/docs/10-swoft/php-swoft-get-started/">
+
+
+
+<script id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Swoft 起步 | Axkeson's Notes</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
+
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Axkeson's Notes</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">博客文章迁移整理中...</p>
+      
+    
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/about/" rel="section"><i class="menu-item-icon fa fa-fw fa-user"></i> <br>关于</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+
+    
+    
+      
+    
+
+    
+
+    <a href="/404.html" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>公益 404</a>
+
+  </li>
+
+      
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br>搜索</a>
+        </li>
+      
+    </ul>
+  
+
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off" placeholder="搜索..." spellcheck="false" type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/12/docs/10-swoft/php-swoft-get-started/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Axkeson">
+      <meta itemprop="description" content="Practice makes perfect.">
+      <meta itemprop="image" content="/images/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Axkeson's Notes">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Swoft 起步
+
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+
+          
+          
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2019-12-12 14:14:00" itemprop="dateCreated datePublished" datetime="2019-12-12T14:14:00+08:00">2019-12-12</time>
+            </span>
+          
+
+          
+
+          
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/Swoft/" itemprop="url" rel="index"><span itemprop="name">Swoft</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          <br>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="开发准备"><a href="#开发准备" class="headerlink" title="开发准备"></a>开发准备</h2><h3 id="环境需求"><a href="#环境需求" class="headerlink" title="环境需求"></a>环境需求</h3><ul>
+<li>安装PHP并且版本至少 <code>&gt;7.1</code>, 推荐使用 <code>7.2+</code></li>
+<li>安装 <code>composer</code> PHP 包管理器</li>
+<li>连接迭代器依赖 <code>pcre</code> 库</li>
+<li>安装php扩展 <code>swoole</code>, 并且版本至少 <code>&gt;4.3.0</code>，推荐使用最新稳定版本</li>
+<li>其他需要安装和启用的php扩展有：<code>PDO</code> <code>redis</code></li>
+</ul>
+<h3 id="有冲突的"><a href="#有冲突的" class="headerlink" title="有冲突的"></a>有冲突的</h3><p>下面列出一些已知的和<code>swoole</code>有冲突的php扩展，请使用<code>swoft</code>时不要安装或禁用它们：</p>
+<ul>
+<li>xdebug</li>
+<li>xhprof</li>
+<li>blackfire</li>
+<li>zend</li>
+<li>trace</li>
+<li>uopz</li>
+</ul>
+<h3 id="PHPStorm-安装Annotations插件"><a href="#PHPStorm-安装Annotations插件" class="headerlink" title="PHPStorm 安装Annotations插件"></a>PHPStorm 安装Annotations插件</h3><p>通过文本编辑器的环境进行 <code>Swoft</code> 开发，在使用 <code>Swoft</code> 便捷的注解时，仍需要 <code>use</code> 注解相对应的命名空间， 这显然不是一个高效的做法。</p>
+<p>我们推荐在 <code>PHPStorm</code> 环境下，并安装 Jetbrain 自带的 <code>PHP Annotations</code> 插件，可提供注解命名空间自动补全，注解属性代码提醒，注解类跳转等非常有助于提升开发效率的功能。</p>
+<p><img src="/2019/12/12/docs/10-swoft/php-swoft-get-started/php-swoft-get-started-01.gif" alt="avatar"></p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="Docker-方式安装"><a href="#Docker-方式安装" class="headerlink" title="Docker 方式安装"></a>Docker 方式安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -p 18306:18306 --name swoft swoft/swoft</span><br></pre></td></tr></table></figure>
+
+<h3 id="Docker-Compose安装"><a href="#Docker-Compose安装" class="headerlink" title="Docker-Compose安装"></a>Docker-Compose安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https://github.com/swoft-cloud/swoft</span><br><span class="line">$ cd swoft</span><br><span class="line">$ docker-compose up</span><br></pre></td></tr></table></figure>
+
+<h3 id="Composer安装"><a href="#Composer安装" class="headerlink" title="Composer安装"></a>Composer安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ composer create-project swoft/swoft swoft</span><br></pre></td></tr></table></figure>
+
+<h3 id="手动安装"><a href="#手动安装" class="headerlink" title="手动安装"></a>手动安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git clone https://github.com/swoft-cloud/swoft</span><br><span class="line">$ cd swoft</span><br><span class="line">$ composer install --no-dev # 不安装 dev 依赖会更快一些</span><br><span class="line">$ cp .env.example .env</span><br><span class="line">$ vim .env # 根据需要调整启动参数</span><br></pre></td></tr></table></figure>
+
+<h2 id="运行服务"><a href="#运行服务" class="headerlink" title="运行服务"></a>运行服务</h2><p><code>Swoft</code> 拥有完善的命令行工具和相应的服务器管理命令</p>
+<h3 id="帮助命令"><a href="#帮助命令" class="headerlink" title="帮助命令"></a>帮助命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">[root@swoft]# php bin/swoft -h</span><br><span class="line">Console application description (Version: 2.0.0)</span><br><span class="line"></span><br><span class="line">Usage:</span><br><span class="line">  bin/swoft COMMAND [arg0 arg1 arg2 ...] [--opt -v -h ...]</span><br><span class="line"></span><br><span class="line">Options:</span><br><span class="line">      --debug      Setting the application runtime debug level(0 - 4)</span><br><span class="line">      --no-color   Disable color/ANSI for message output</span><br><span class="line">  -h, --help       Display this help message</span><br><span class="line">  -V, --version    Show application version information</span><br><span class="line">      --expand     Expand sub-commands for all command groups</span><br><span class="line"></span><br><span class="line">Available Commands:</span><br><span class="line">  http     Provide some commands to manage the swoft HTTP Server(alias: httpserver,httpServer,http-server)</span><br><span class="line">  rpc      Class ServiceServerCommand</span><br><span class="line">  test     Class TestCommand</span><br><span class="line">  ws       Provide some commands to operate swoft WebSocket Server(alias: ws-server,wsserver,websocket)</span><br><span class="line"></span><br><span class="line">More command information, please use: bin/swoft COMMAND -h</span><br></pre></td></tr></table></figure>
+
+<h3 id="HTTP-服务器"><a href="#HTTP-服务器" class="headerlink" title="HTTP 服务器"></a>HTTP 服务器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ php bin/swoft http:start // 启动服务</span><br><span class="line">$ php bin/swoft http:start -d // 守护进程启动</span><br><span class="line">$ php bin/swoft http:restart // 重启</span><br><span class="line">$ php bin/swoft http:reload // 重新加载</span><br><span class="line">$ php bin/swoft http:stop // 关闭服务</span><br></pre></td></tr></table></figure>
+
+<h3 id="WebSocket服务器"><a href="#WebSocket服务器" class="headerlink" title="WebSocket服务器"></a>WebSocket服务器</h3><p>启动WebSocket服务器,可选是否 同时支持http处理</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ php bin/swoft ws:start // 启动服务</span><br><span class="line">$ php bin/swoft ws:start -d // 守护进程启动</span><br><span class="line">$ php bin/swoft ws:restart // 重启</span><br><span class="line">$ php bin/swoft ws:reload // 重新加载</span><br><span class="line">$ php bin/swoft ws:stop // 关闭服务</span><br></pre></td></tr></table></figure>
+
+<h3 id="RPC-服务器"><a href="#RPC-服务器" class="headerlink" title="RPC 服务器"></a>RPC 服务器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ php bin/swoft rpc:start // 启动服务</span><br><span class="line">$ php bin/swoft rpc:start -d // 守护进程启动</span><br><span class="line">$ php bin/swoft rpc:restart // 重启</span><br><span class="line">$ php bin/swoft rpc:reload // 重新加载</span><br><span class="line">$ php bin/swoft rpc:stop // 关闭服务</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动信息"><a href="#启动信息" class="headerlink" title="启动信息"></a>启动信息</h3><p>默认情况下，启动时会打印一些启动信息到控制台。</p>
+<blockquote>
+<p>如果你的 <code>.env</code> 开启了 <code>SWOFT_DEBUG=1</code> 将会看到更多详细的启动与加载信息。</p>
+</blockquote>
+<p>如果你想关闭这些信息，可以在 <code>app/Application</code> 添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public function getCLoggerConfig(): array</span><br><span class="line">&#123;</span><br><span class="line">    $config = parent::getCLoggerConfig();</span><br><span class="line">    // disable print console start log</span><br><span class="line">    $config[&apos;enable&apos;] = false;</span><br><span class="line"></span><br><span class="line">    return $config;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>重启swoft，可以看到不会有任何信息输出了</p>
+<blockquote>
+<p>reload只是重新释放一下内存，只在开发过程中有用，线上请勿使用<br>更新代码时可以放心使用restart，swoole底层做了优化，不会中断正在处理的请求</p>
+</blockquote>
+<h2 id="应用结构"><a href="#应用结构" class="headerlink" title="应用结构"></a>应用结构</h2><p>一个完整的 <code>Swoft</code> 应用可以包含：</p>
+<ul>
+<li><code>console</code> 应用</li>
+<li><code>http 服务</code>（跟传统的框架差不多）</li>
+<li><code>websocket</code> 服务</li>
+<li><code>rpc</code> 服务</li>
+<li><code>tcp</code> 服务</li>
+</ul>
+<h3 id="应用骨架"><a href="#应用骨架" class="headerlink" title="应用骨架"></a>应用骨架</h3><p><code>app</code> 下的类目录为了避免一些文件夹名称没有复数单词，导致命名不统一，所有的文件夹名称 <strong>统一使用单数</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">├── app/   ------ 应用代码目录</span><br><span class="line">│   ├── Annotation/   ------- 定义注解相关</span><br><span class="line">│   ├── Aspect/       ------- AOP 切面</span><br><span class="line">│   ├── Common/       ------- 一些具有独立功能的 class bean</span><br><span class="line">│   ├── Console/      ------- 命令行代码目录</span><br><span class="line">│   │   ├── Command/</span><br><span class="line">│   ├── Exception/      ------ 定义异常类目录</span><br><span class="line">│   │   └── Handler/       ------ 定义异常处理类目录</span><br><span class="line">│   ├── Http/         ------ HTTP 服务代码目录</span><br><span class="line">│   │   ├── Controller/</span><br><span class="line">│   │   └── Middleware/</span><br><span class="line">│   ├── Helper/</span><br><span class="line">│   │   └── Functions.php</span><br><span class="line">│   ├── Listener/     ------ 事件监听器目录</span><br><span class="line">│   ├── Model/        ------ 模型、逻辑等代码目录(这些层并不限定，根据需要使用)</span><br><span class="line">│   │   ├── Dao/</span><br><span class="line">│   │   ├── Data/</span><br><span class="line">│   │   ├── Logic/</span><br><span class="line">│   │   └── Entity/</span><br><span class="line">│   ├── Rpc/          ------ RPC 服务代码目录</span><br><span class="line">│   │   └── Service/</span><br><span class="line">│   │   └── Middleware/</span><br><span class="line">│   ├── WebSocket/     ------ WebSocket 服务代码目录</span><br><span class="line">│   │   ├── Chat/</span><br><span class="line">│   │   ├── Middleware/</span><br><span class="line">│   │   └── ChatModule.php</span><br><span class="line">│   ├── Tcp/          ------ Tcp 服务代码目录</span><br><span class="line">│   │   └── Controller/  ------ Tcp 服务处理控制器目录</span><br><span class="line">│   ├── Application.php -------- 应用类文件继承自swoft核心</span><br><span class="line">│   ├── AutoLoader.php  -------- 项目扫描等信息(应用本身也算是一个组件)</span><br><span class="line">│   └── bean.php</span><br><span class="line">├── bin/</span><br><span class="line">│   ├── bootstrap.php</span><br><span class="line">│   └── swoft   ------ swoft 入口文件</span><br><span class="line">├── config/     ------ 应用配置目录</span><br><span class="line">│   ├── base.php  --- 基础配置</span><br><span class="line">│   └── db.php</span><br><span class="line">├── public/     ------ WEB可访问目录</span><br><span class="line">├── resource/   ------ 应用相关资源目录</span><br><span class="line">│   ├── language/   ------ 语言资源目录  </span><br><span class="line">│   └── view/       ------ 视图资源目录  </span><br><span class="line">├── runtime/    ------ 临时文件目录(日志、上传文件、文件缓存等)</span><br><span class="line">├── test/       ------ 单元测试代码目录</span><br><span class="line">│   └── bootstrap.php</span><br><span class="line">├── composer.json</span><br><span class="line">├── composer.lock</span><br><span class="line">├── phar.build.inc</span><br><span class="line">└── phpunit.xml.dist</span><br></pre></td></tr></table></figure>
+
+<h3 id="组件骨架结构"><a href="#组件骨架结构" class="headerlink" title="组件骨架结构"></a>组件骨架结构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">├── src/</span><br><span class="line">│   ├── Annotation/  -------- 组件注解类定义</span><br><span class="line">│   ├── Common/         ------- 一些具有独立功能的 class bean</span><br><span class="line">│   ├── Concern/      ------- abstract, traits classes</span><br><span class="line">│   ├── Contract/     ------- interface classes</span><br><span class="line">│   ├── Exception/</span><br><span class="line">│   ├── Helper/</span><br><span class="line">│   ├── Listener/</span><br><span class="line">│   ├── AutoLoader.php  -------- 组件扫描等信息</span><br><span class="line">├── test/   ------ 单元测试代码目录</span><br><span class="line">│   ├── unit/</span><br><span class="line">│   ├── testing/</span><br><span class="line">│   └── bootstrap.php</span><br><span class="line">├── LICENSE</span><br><span class="line">├── README.md</span><br><span class="line">├── composer.json</span><br><span class="line">└── phpunit.xml</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>src/AutoLoader.php 是一个组件必须存在的文件，swoft 依据它来确定要扫描那些目录</p>
+</blockquote>
+<h2 id="Swoft-CLI"><a href="#Swoft-CLI" class="headerlink" title="Swoft CLI"></a>Swoft CLI</h2><p>Swoft CLI 是一个独立的命令行应用包，提供了一些内置的工具方便开发者使用。</p>
+<ul>
+<li>生成 <code>Swoft</code> 应用类文件，例如：<code>http</code> 控制器，<code>websocket</code> 模块类等等</li>
+<li>监视用户 <code>swoft</code> 项目的文件更改并自动重新启动服务器</li>
+<li>快速创建新应用项目或新的组件</li>
+<li>将一个<code>swoft</code> 应用打包成 <code>phar</code> 包</li>
+</ul>
+<h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://github.com/swoft-cloud/swoft-cli/releases/download/&#123;VERSION&#125;/swoftcli.phar</span><br><span class="line"></span><br><span class="line"># 检查包是否可用</span><br><span class="line">$ php swoftcli.phar -V</span><br><span class="line">$ php swoftcli.phar -h</span><br><span class="line"></span><br><span class="line"># 全局使用</span><br><span class="line">$ mv swoftcli.phar /usr/local/bin/swoftcli</span><br><span class="line">$ chmod a+x /usr/local/bin/swoftcli</span><br><span class="line">$ swoftcli -V</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意：需要将命令里的 {VERSION} 替换为指定的版本。当然也你可以直接通过浏览器下载</p>
+</blockquote>
+<h3 id="自动重启服务"><a href="#自动重启服务" class="headerlink" title="自动重启服务"></a>自动重启服务</h3><p><code>swoft 2.0</code> 在内置组件中去除了自动重启功能，由新的独立工具 swoft-cli 来提供。帮助开发者在开发时能让改动的代码快速生效。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ swoftcli run -h</span><br></pre></td></tr></table></figure>
+
+<h4 id="选项列表"><a href="#选项列表" class="headerlink" title="选项列表"></a>选项列表</h4><ul>
+<li><code>-b, --bin-file</code> 指定swoft应用的入口文件，默认是 <code>bin/swoft</code></li>
+<li><code>--interval</code> 监控文件的间隔时间，默认 3 秒钟检查一次</li>
+<li><code>--php-bin</code> 指定你的php可执行文件，默认会自动从全局path中寻找php</li>
+<li><code>-c, --start-cmd</code> 指定server启动命令，默认是 <code>http:start</code> (启动http server)</li>
+<li><code>-w, --watch</code> 指定要监控的目录，相对于应用目录。默认监控 <code>app,config</code> 里的文件变动</li>
+</ul>
+<h4 id="参数列表"><a href="#参数列表" class="headerlink" title="参数列表"></a>参数列表</h4><ul>
+<li><code>targetPath</code> 仅有一个参数，指定要运行的swoft应用所在目录，默认为当前目录</li>
+</ul>
+<h4 id="使用示例"><a href="#使用示例" class="headerlink" title="使用示例"></a>使用示例</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ swoftcli run -c ws:start -b bin/swoft /path/to/php/swoft</span><br></pre></td></tr></table></figure>
+
+<p>当有文件发生变动时，swoft-cli 就会自动的重新启动应用</p>
+<blockquote>
+<p>使用 <code>swoftcli</code> 监控server开发时，不能将server配置为后台运行，不然swoftcli会错误的认为server意外退出了，导致重复启动</p>
+</blockquote>
+
+      
+    </div>
+
+    
+
+    
+      
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+      <div>
+        <div id="reward-container">
+  <div>您的支持将鼓励我继续创作！.</div>
+  <button id="reward-button" disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+
+    
+      
+      
+        
+      
+      <div style="display: inline-block">
+        <img src="/images/Wechat.jpeg" alt="Axkeson 微信支付">
+        <p>微信支付</p>
+      </div>
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        
+          
+        
+        <div class="post-tags">
+          
+            <a href="/tags/PHP/" rel="tag"># PHP</a>
+          
+            <a href="/tags/Swoft/" rel="tag"># Swoft</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/12/08/docs/02-tools/tools-mkdocs/" rel="next" title="MkDocs 安装与使用(未完成)">
+                <i class="fa fa-chevron-left"></i> MkDocs 安装与使用(未完成)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.jpg" alt="Axkeson">
+            
+              <p class="site-author-name" itemprop="name">Axkeson</p>
+              <div class="site-description motion-element" itemprop="description">Practice makes perfect.</div>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">56</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                      <a href="/categories/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">9</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                      <a href="/tags/">
+                    
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">75</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/axkeson" title="GitHub &rarr; https://github.com/axkeson" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:axkeson@gmail.com" title="E-Mail &rarr; mailto:axkeson@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </div>
+
+      
+      <!--noindex-->
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+            
+            
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#开发准备"><span class="nav-number">1.</span> <span class="nav-text">开发准备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境需求"><span class="nav-number">1.1.</span> <span class="nav-text">环境需求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有冲突的"><span class="nav-number">1.2.</span> <span class="nav-text">有冲突的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PHPStorm-安装Annotations插件"><span class="nav-number">1.3.</span> <span class="nav-text">PHPStorm 安装Annotations插件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-方式安装"><span class="nav-number">2.1.</span> <span class="nav-text">Docker 方式安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-Compose安装"><span class="nav-number">2.2.</span> <span class="nav-text">Docker-Compose安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Composer安装"><span class="nav-number">2.3.</span> <span class="nav-text">Composer安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手动安装"><span class="nav-number">2.4.</span> <span class="nav-text">手动安装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行服务"><span class="nav-number">3.</span> <span class="nav-text">运行服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#帮助命令"><span class="nav-number">3.1.</span> <span class="nav-text">帮助命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTTP-服务器"><span class="nav-number">3.2.</span> <span class="nav-text">HTTP 服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebSocket服务器"><span class="nav-number">3.3.</span> <span class="nav-text">WebSocket服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RPC-服务器"><span class="nav-number">3.4.</span> <span class="nav-text">RPC 服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启动信息"><span class="nav-number">3.5.</span> <span class="nav-text">启动信息</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用结构"><span class="nav-number">4.</span> <span class="nav-text">应用结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#应用骨架"><span class="nav-number">4.1.</span> <span class="nav-text">应用骨架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组件骨架结构"><span class="nav-number">4.2.</span> <span class="nav-text">组件骨架结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Swoft-CLI"><span class="nav-number">5.</span> <span class="nav-text">Swoft CLI</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-1"><span class="nav-number">5.1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动重启服务"><span class="nav-number">5.2.</span> <span class="nav-text">自动重启服务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#选项列表"><span class="nav-number">5.2.1.</span> <span class="nav-text">选项列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#参数列表"><span class="nav-number">5.2.2.</span> <span class="nav-text">参数列表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用示例"><span class="nav-number">5.2.3.</span> <span class="nav-text">使用示例</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </div>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+  
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2016 – <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Axkeson</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.9.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v7.2.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+    
+
+    
+  </div>
+
+  
+
+<script>
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+
+  
+  
+  
+
+
+
+
+
+
+
+  
+  <script src="/lib/jquery/index.js?v=3.4.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+
+
+
+  <script src="/js/utils.js?v=7.2.0"></script>
+
+  <script src="/js/motion.js?v=7.2.0"></script>
+
+
+
+  
+  
+
+
+  <script src="/js/affix.js?v=7.2.0"></script>
+
+  <script src="/js/schemes/pisces.js?v=7.2.0"></script>
+
+
+
+  
+  <script src="/js/scrollspy.js?v=7.2.0"></script>
+<script src="/js/post-details.js?v=7.2.0"></script>
+
+
+
+  <script src="/js/next-boot.js?v=7.2.0"></script>
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+
+  
+  <script>
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url).replace(/\/{2,}/g, '/');
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x"></i></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x"></i></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+  
+
+</body>
+</html>
